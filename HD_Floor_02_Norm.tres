@@ -1,0 +1,23 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://3re"]
+
+[ext_resource type="Texture2D" uid="uid://bcdy" path="res://Mons_game/MonsGame/Textures/HD_Floor_02_Dif_Style_02_Alb.png" id="1_bcdy"]
+[ext_resource type="Texture2D" uid="uid://bcdw" path="res://Mons_game/MonsGame/Textures/HD_Floor_02_Dif_Style_02_Norm.png" id="2_bcdw"]
+[ext_resource type="Texture2D" uid="uid://bcd1" path="res://Mons_game/MonsGame/Textures/HD_Floor_02_Dif_Style_02_Metal.png" id="3_bcd1"]
+[ext_resource type="Texture2D" uid="uid://bcd3" path="res://Mons_game/MonsGame/Textures/HD_Floor_02_Dif_Style_02_AO.png" id="4_bcd3"]
+
+[resource]
+resource_name = "HD_Floor_02_Norm"
+cull_mode = 2
+albedo_color = Color(0.784, 0.784, 0.784, 1)
+albedo_texture = ExtResource("1_bcdy")
+metallic = 1.0
+metallic_texture = ExtResource("3_bcd1")
+roughness_texture = ExtResource("3_bcd1")
+roughness_texture_channel = 3
+emission_enabled = true
+emission = Color(0, 0, 0, 0)
+normal_enabled = true
+normal_texture = ExtResource("2_bcdw")
+ao_enabled = true
+ao_texture = ExtResource("4_bcd3")
+ao_texture_channel = 1

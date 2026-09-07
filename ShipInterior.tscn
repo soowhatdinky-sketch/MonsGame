@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bcaeog20bibdo"]
+
+[ext_resource type="Script" uid="uid://3tdvn3q2nfcc" path="res://Mons_game/scripts/ShipInterior.gd" id="1"]
+
+[node name="ShipInterior" type="Node3D" unique_id=195406584]
+script = ExtResource("1")

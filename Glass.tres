@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://33m"]
+
+[ext_resource type="Texture2D" uid="uid://bcgs" path="res://Mons_game/MonsGame/Textures/Others/Glass_01.png" id="1_bcgs"]
+
+[resource]
+resource_name = "Glass"
+transparency = 1
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 0.184)
+albedo_texture = ExtResource("1_bcgs")
+emission_enabled = true
+emission = Color(0, 0, 0, 0)
