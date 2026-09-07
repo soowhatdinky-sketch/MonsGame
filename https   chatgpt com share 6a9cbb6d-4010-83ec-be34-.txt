@@ -1,0 +1,1612 @@
+https://chatgpt.com/share/6a9cbb6d-4010-83ec-be34-eb27be815bb9?ogimg=plain
+
+https://chatgpt.com/share/6a9cbbca-9664-83ec-ae30-5eb1d9f682df?ogimg=plain
+
+https://chatgpt.com/share/6a9cbb37-ce34-83ec-b3f8-1b76de683b94?ogimg=plain
+
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="3D Scifi Kit Free"
+run/main_scene="uid://bkbv8t2yunnew"
+config/features=PackedStringArray("4.7", "Forward Plus")
+run/low_processor_mode=true
+run/load_shell_environment=true
+boot_splash/show_image=false
+boot_splash/image="uid://bbccog1sy3xhv"
+
+[autoload]
+
+GdPAIAutoload="*uid://ol4q4tu0vtwo"
+BootSplashPlus="*uid://bmmmyvf7c1rya"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/DeeplinkPlugin/plugin.cfg", "res://addons/GDQuest_GDScript_formatter/plugin.cfg", "res://addons/GdPlanningAI/plugin.cfg", "res://addons/boot_splash_plus/plugin.cfg")
+
+[importer_defaults]
+
+texture={
+"detect_3d/compress_to": 0
+}
+animation_library={
+&"nodes/root_scale": 1000.0
+}
+
+[input_devices]
+
+joypads/ignore_joypad_on_unfocused_application=true
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=2
+textures/canvas_textures/default_texture_repeat=1
+textures/vram_compression/import_s3tc_bptc=true
+lights_and_shadows/use_physical_light_units=true
+textures/default_filters/anisotropic_filtering_level=4
+viewport/transparent_background=true
+----------------------------------------------------------------------------------------------------------------------------------------
+
+uid://c4xpc54u84nd8
+
+--------------------------------------------------------------------------------------
+
+func _get_systems_logic_source() -> String:
+	return """
+extends Node
+
+class_name ShipSystems
+
+var reactor_power: float = 1.0
+var life_support: float = 1.0
+var shields: float = 1.0
+var engines: float = 1.0
+
+func _ready() -> void:
+	print("[ShipSystems] Systems online")
+
+func set_power(value: float) -> void:
+	reactor_power = clamp(value, 0.0, 1.0)
+"""
+
+
+func _get_deck_builder_source() -> String:
+	return """
+extends Node3D
+
+class_name PrefabDeckBuilder
+
+@export var prefab_limit: int = 256
+@export var deck_bounds_dimensions: Vector3 = Vector3(100, 10, 100)
+
+func _ready() -> void:
+	print("[PrefabDeckBuilder] Initialising deck system")
+	print("[PrefabDeckBuilder] Prefab limit: ", prefab_limit)
+
+func build_deck() -> void:
+	print("[PrefabDeckBuilder] Building deck")
+"""
+
+
+func _get_player_controller_source() -> String:
+	return """
+extends CharacterBody3D
+
+class_name FirstPersonPlayer
+
+@export var movement_speed: float = 6.0
+@export var mouse_sensitivity: float = 0.002
+
+func _physics_process(_delta: float) -> void:
+	var input_vector := Input.get_vector(
+		"ui_left",
+		"ui_right",
+		"ui_up",
+		"ui_down"
+	)
+
+	var direction := Vector3(
+		input_vector.x,
+		0.0,
+		input_vector.y
+	)
+
+	velocity.x = direction.x * movement_speed
+	velocity.z = direction.z * movement_speed
+
+	move_and_slide()
+"""
+
+
+func _get_unified_scene_source() -> String:
+	return """
+[gd_scene format=3]
+
+[node name="MassiveShip" type="Node3D"]
+
+[node name="ShipSystems" type="Node" parent="."]
+
+[node name="PrefabDeckBuilder" type="Node3D" parent="."]
+
+[node name="Interior" type="Node3D" parent="."]
+
+[node name="Decks" type="Node3D" parent="Interior"]
+
+[node name="Hangars" type="Node3D" parent="Interior"]
+
+[node name="Engineering" type="Node3D" parent="Interior"]
+"""
+-----------------------------------------------------------------------------------------------------
+
+func _get_unified_scene_source() -> String:
+	return '''[gd_scene load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/MassiveShip.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ShipInterior.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ShipSystems.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/FirstPersonPlayer.gd" id="4"]
+
+[sub_resource type="Environment" id="Environment_deep_space"]
+background_mode = 1
+background_color = Color(0.003, 0.005, 0.015, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.12, 0.16, 0.26, 1)
+ambient_light_energy = 0.65
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.3
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 1.2
+height = 5.0
+
+[node name="VesselCommandPlatform" type="Node3D"]
+
+[node name="DeepSpaceEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_deep_space")
+
+[node name="PrimarySolarLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906308, -0.242404, 0.346188, 0, 0.819152, 0.573576, -0.422618, -0.519837, 0.742404, 0, 0, 0)
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="CapitalShipHull" type="Node3D" parent="."]
+script = ExtResource("1")
+
+[node name="InteriorMatrix" type="Node3D" parent="."]
+script = ExtResource("2")
+
+[node name="ShipSystems" type="Node3D" parent="."]
+script = ExtResource("3")
+
+[node name="FirstPersonCharacter" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -172, -100)
+script = ExtResource("4")
+
+[node name="PlayerColliderShape" type="CollisionShape3D" parent="FirstPersonCharacter"]
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="Head" type="Node3D" parent="FirstPersonCharacter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="FPSCamera" type="Camera3D" parent="FirstPersonCharacter/Head"]
+current = true
+fov = 75.0
+near = 0.05
+far = 10000.0
+'''
+-------------------------------------------------------------------------------------------------------
+
+uid://0tvx4retkql5
+
+---------------------------------------------------------------------------------------------------------
+
+
+# Color definition for Tinkercad Obj File 2015
+
+newmtl color_197379
+Ka 0 0 0 
+Kd 0.011764705882352941 0.011764705882352941 0.011764705882352941
+d 1
+illum 0.0
+
+newmtl color_11909273
+Ka 0 0 0 
+Kd 0.7098039215686275 0.7215686274509804 0.6
+d 1
+illum 0.0
+
+newmtl color_13463636
+Ka 0 0 0 
+Kd 0.803921568627451 0.4392156862745098 0.32941176470588235
+d 1
+illum 0.0
+
+newmtl color_6383466
+Ka 0 0 0 
+Kd 0.3803921568627451 0.403921568627451 0.41568627450980394
+d 1
+illum 0.0
+
+newmtl color_14541540
+Ka 0 0 0 
+Kd 0.8666666666666667 0.8862745098039215 0.8941176470588236
+d 1
+illum 0.0
+
+newmtl color_10988977
+Ka 0 0 0 
+Kd 0.6549019607843137 0.6784313725490196 0.6941176470588235
+d 1
+illum 0.0
+
+newmtl color_12568524
+Ka 0 0 0 
+Kd 0.7490196078431373 0.7803921568627451 0.8
+d 1
+illum 0.0
+
+extends Node
+ PrefabDeckBuilder.gd
+import os, zipfile, shutil, re
+
+src="/mnt/data/scifi-starter-kit---godot-3.zip"
+work="/mnt/data/capital_ship_build"
+if os.path.exists(work):
+	shutil.rmtree(work)
+with zipfile.ZipFile(src) as zin:
+	zin.extractall(work)
+
+root=os.path.join(work,"scifi-starter-kit---godot-3")
+scripts=os.path.join(root,"Creepy_Cat","scripts")
+scenes=os.path.join(root,"Creepy_Cat","scenes")
+os.makedirs(scripts,exist_ok=True)
+os.makedirs(scenes,exist_ok=True)
+
+controller = '''extends Node3D
+@export var hull_scale := 3.6
+@export var build_interior := true
+@export var interior_modules := 72
+@export var cruise_speed := 18.0
+@export var turn_speed := 0.18
+var ship_velocity := 0.0
+var throttle := 0.0
+const HULL := preload("res://Creepy_Cat/Sci-Fi_Starter_Kit/spherocal/tinker (2).obj")
+
+func _ready() -> void:
+    add_to_group("capital_ship")
+    _build_capital_ship()
+    _build_interior()
+    print("CAPITAL SHIP ONLINE — command, engineering, hangars, weapons and drives ready.")
+
+func _physics_process(delta: float) -> void:
+    var thrust := Input.get_axis("ui_down", "ui_up")
+    var yaw := Input.get_axis("ui_left", "ui_right")
+    throttle = clamp(throttle + thrust * delta * 0.25, 0.0, 1.0)
+    ship_velocity = lerp(ship_velocity, throttle * cruise_speed, delta * 0.8)
+    rotation.y += yaw * turn_speed * delta
+
+func _build_capital_ship() -> void:
+    var hull := MeshInstance3D.new()
+    hull.name = "Main_Hull"
+    hull.mesh = HULL
+    hull.scale = Vector3.ONE * hull_scale
+    hull.rotation_degrees.x = 90.0
+    hull.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+    add_child(hull)
+
+    _box("Armored_Keel", Vector3(420,70,1850), Vector3(0,-250,0))
+    _box("Dorsal_Spine", Vector3(280,120,1750), Vector3(0,210,40))
+    for side in [-1.0,1.0]:
+        _box("Side_Armor_%s" % side, Vector3(260,110,1550), Vector3(side*520,10,0))
+        _box("Broadside_Belt_%s" % side, Vector3(180,85,1200), Vector3(side*700,-30,80))
+        _box("Engine_Barrier_%s" % side, Vector3(160,170,520), Vector3(side*610,70,690))
+
+    _box("Command_Tower", Vector3(260,190,360), Vector3(0,360,-80))
+    _box("Bridge_Forward", Vector3(210,95,240), Vector3(0,455,-235))
+    _box("Bridge_Armor", Vector3(330,55,300), Vector3(0,500,-90))
+
+    for side in [-1.0,1.0]:
+        _box("Hangar_Bay_%s" % side, Vector3(250,180,520), Vector3(side*470,-20,-620))
+        _box("Hangar_Door_%s" % side, Vector3(45,145,430), Vector3(side*605,-20,-620))
+
+    for side in [-1.0,1.0]:
+        for row in range(4):
+            var x := side * (250.0 + row * 120.0)
+            _cylinder("Main_Drive_%s_%d" % [side,row], 82.0-row*8.0, 500.0, Vector3(x,-80,960), Vector3(90,0,0))
+            _cylinder("Drive_Nozzle_%s_%d" % [side,row], 92.0-row*8.0, 100.0, Vector3(x,-80,1240), Vector3(90,0,0))
+
+    for i in range(7):
+        _weapon_battery("Spinal_Battery_%d" % i, Vector3(0,315,-720.0+i*240.0), 0.0)
+
+    for side in [-1.0,1.0]:
+        for i in range(6):
+            _weapon_battery("Broadside_%s_%d" % [side,i], Vector3(side*690,80,-600.0+i*240.0), side*90.0)
+        for z in [-420.0,-120.0,180.0,480.0]:
+            _pd_mount(Vector3(side*540,300,z))
+
+    _cylinder("Sensor_Mast",24,260,Vector3(0,560,0),Vector3.ZERO)
+    _box("Sensor_Array",Vector3(420,35,120),Vector3(0,710,0))
+
+func _build_interior() -> void:
+    var decks := Node3D.new()
+    decks.name = "Interior_Decks"
+    add_child(decks)
+    for deck in range(12):
+        _box("Deck_%02d" % deck, Vector3(720,8,1500), Vector3(0,-180+deck*32,0), 0.0, decks)
+    _box("Command_Deck",Vector3(500,25,420),Vector3(0,410,-120),0.0,decks)
+    _box("Engineering_Core",Vector3(600,90,560),Vector3(0,-160,610),0.0,decks)
+    _box("Hangar_Deck",Vector3(800,30,650),Vector3(0,-20,-620),0.0,decks)
+    _box("Reactor_Deck",Vector3(420,120,420),Vector3(0,-230,620),0.0,decks)
+
+    if build_interior:
+        var builder := preload("res://Creepy_Cat/scripts/CapitalShipInteriorBuilder.gd").new()
+        builder.name = "StarterKit_Interior"
+        builder.kit_path = "res://Creepy_Cat/Sci-Fi_Starter_Kit/Prefabs"
+        builder.prefab_limit = interior_modules
+        builder.position = Vector3(0,-150,0)
+        add_child(builder)
+
+func _box(n:String,size:Vector3,pos:Vector3,rot_y:float=0.0,parent:Node=self)->MeshInstance3D:
+    var m:=MeshInstance3D.new()
+    m.name=n
+    var b:=BoxMesh.new()
+    b.size=size
+    m.mesh=b
+    m.position=pos
+    m.rotation_degrees.y=rot_y
+    parent.add_child(m)
+    return m
+
+func _cylinder(n:String,radius:float,height:float,pos:Vector3,rot:Vector3)->MeshInstance3D:
+    var m:=MeshInstance3D.new()
+    m.name=n
+    var c:=CylinderMesh.new()
+    c.top_radius=radius
+    c.bottom_radius=radius
+    c.height=height
+    m.mesh=c
+    m.position=pos
+    m.rotation_degrees=rot
+    add_child(m)
+    return m
+
+func _weapon_battery(n:String,pos:Vector3,yaw:float)->void:
+    _cylinder(n+"_Mount",45,35,pos,Vector3(0,0,0)).rotation_degrees.y=yaw
+    _box(n+"_Barrel",Vector3(28,28,210),pos+Vector3(0,20,-105),yaw)
+
+func _pd_mount(pos:Vector3)->void:
+    _cylinder("PointDefense",22,55,pos,Vector3.ZERO)
+'''
+open(os.path.join(scripts,"CapitalShipController.gd"),"w").write(controller)
+
+builder = '''extends Node3D
+@export var kit_path := "res://Creepy_Cat/Sci-Fi_Starter_Kit/Prefabs"
+@export var prefab_limit := 72
+
+func _ready()->void:
+    call_deferred("_populate")
+
+func _populate()->void:
+    var scenes:=_find_scenes(kit_path)
+    var usable:Array[String]=[]
+    for path in scenes:
+        var lower:=path.to_lower()
+        if "wall_" in lower or "floor_" in lower or "door_" in lower or "beam_" in lower or "pipe" in lower:
+            usable.append(path)
+    for i in range(mini(prefab_limit,usable.size())):
+        var packed=load(usable[i])
+        if packed is PackedScene:
+            var item=packed.instantiate()
+            item.position=_slot(i)
+            add_child(item)
+
+func _find_scenes(path:String)->Array[String]:
+    var result:Array[String]=[]
+    var dir:=DirAccess.open(path)
+    if dir==null:return result
+    dir.list_dir_begin()
+    var item:=dir.get_next()
+    while item!="":
+        if item!="." and item!="..":
+            var full:=path.path_join(item)
+            if dir.current_is_dir(): result.append_array(_find_scenes(full))
+            elif item.to_lower().ends_with(".tscn"): result.append(full)
+        item=dir.get_next()
+    dir.list_dir_end()
+    return result
+
+func _slot(i:int)->Vector3:
+    var cols:=6
+    var col:=i%cols
+    var row:=(i/cols)%2
+    var deck:=i/(cols*2)
+    return Vector3((col-2.5)*95.0,(deck%12)*32.0-150.0,(row-0.5)*460.0+(deck/12)*520.0-520.0)
+'''
+open(os.path.join(scripts,"CapitalShipInteriorBuilder.gd"),"w").write(builder)
+
+camera = '''extends Node3D
+@export var distance:=4200.0
+@export var height:=900.0
+var camera:Camera3D
+
+func _ready()->void:
+    camera=Camera3D.new()
+    camera.current=true
+    camera.fov=55.0
+    add_child(camera)
+
+func _process(_delta:float)->void:
+    camera.position=Vector3(0,height,distance)
+    camera.look_at(Vector3.ZERO,Vector3.UP)
+'''
+open(os.path.join(scripts,"CapitalShipCamera.gd"),"w").write(camera)
+
+scene = '''[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Creepy_Cat/scripts/CapitalShipController.gd" id="1"]
+[ext_resource type="Script" path="res://Creepy_Cat/scripts/CapitalShipCamera.gd" id="2"]
+
+[sub_resource type="Environment" id="Environment_cap"]
+background_mode = 1
+background_color = Color(0.005, 0.008, 0.02, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.16, 0.20, 0.30, 1)
+ambient_light_energy = 0.7
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.25
+
+[node name="CapitalShip" type="Node3D"]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_cap")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-35, -25, 0)
+light_energy = 1.4
+shadow_enabled = true
+
+[node name="FillLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 300, 0)
+omni_range = 1600.0
+light_energy = 3.0
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2")
+'''
+open(os.path.join(scenes,"CapitalShip.tscn"),"w").write(scene)
+
+pg=os.path.join(root,"project.godot")
+txt=open(pg,encoding="utf-8").read()
+txt=re.sub(r'config/name="[^"]*"', 'config/name="Skull Cap — Capital Ship"', txt)
+txt=re.sub(r'run/main_scene="[^"]*"', 'run/main_scene="res://Creepy_Cat/scenes/CapitalShip.tscn"', txt)
+open(pg,"w",encoding="utf-8").write(txt)
+
+readme='''# Skull Cap — Capital Ship Upgrade
+
+The supplied Spherocal hull is now the core of a proper capital ship.
+
+- ~1.6 km wide, ~2.4 km long hull at the supplied model scale.
+- Armored keel, dorsal spine, side armor and broadside belts.
+- Protected command tower and bridge.
+- Twin hangar bays.
+- Eight main drive nacelles.
+- Seven spinal weapon batteries, twelve broadside batteries and point defense.
+- Sensor mast and array.
+- 12 interior decks plus command, engineering, reactor and hangar zones.
+- Controlled use of the supplied Sci-Fi Starter Kit prefabs inside the ship.
+- Dedicated presentation camera and space environment.
+- Main scene changed to Creepy_Cat/scenes/CapitalShip.tscn.
+
+Open in Godot 4.7+ and press Run.
+'''
+open(os.path.join(root,"CAPITAL_SHIP_README.md"),"w").write(readme)
+
+out="/mnt/data/skull_cap_capital_ship.zip"
+if os.path.exists(out):
+	os.remove(out)
+with zipfile.ZipFile(out,"w",zipfile.ZIP_DEFLATED) as zout:
+	for dp,_,files in os.walk(root):
+		for fn in files:
+			fp=os.path.join(dp,fn)
+			zout.write(fp,os.path.relpath(fp,work))
+
+print(f"Created: {out}")
+print(f"Size: {os.path.getsize(out)/1024/1024:.1f} MB")
+import os, zipfile, shutil, re
+
+src = "/mnt/data/scifi-starter-kit---godot-3.zip"
+work = "/mnt/data/capital_ship_build"
+
+if os.path.exists(work): 
+    shutil.rmtree(work)
+    
+with zipfile.ZipFile(src) as zin: 
+    zin.extractall(work)
+
+root = os.path.join(work, "scifi-starter-kit---godot-3")
+scripts = os.path.join(root, "Creepy_Cat", "scripts")
+scenes = os.path.join(root, "Creepy_Cat", "scenes")
+
+os.makedirs(scripts, exist_ok=True)
+os.makedirs(scenes, exist_ok=True)
+
+# ----------------------------------------------------
+# CONTROLLER SCRIPT (Fixed typo from box to _box)
+# ----------------------------------------------------
+controller = '''extends Node3D
+
+@export var hull_scale := 3.6
+@export var build_interior := true
+@export var interior_modules := 72
+@export var cruise_speed := 18.0
+@export var turn_speed := 0.18
+
+var ship_velocity := 0.0
+var throttle := 0.0
+
+const HULL := preload("res://Creepy_Cat/Sci-Fi_Starter_Kit/spherocal/tinker (2).obj")
+
+func _ready() -> void:
+    add_to_group("capital_ship")
+    _build_capital_ship()
+    _build_interior()
+    print("CAPITAL SHIP ONLINE — command, engineering, hangars, weapons and drives ready.")
+
+func _physics_process(delta: float) -> void:
+    var thrust := Input.get_axis("ui_down", "ui_up")
+    var yaw := Input.get_axis("ui_left", "ui_right")
+    throttle = clamp(throttle + thrust * delta * 0.25, 0.0, 1.0)
+    ship_velocity = lerp(ship_velocity, throttle * cruise_speed, delta * 0.8)
+    rotation.y += yaw * turn_speed * delta
+
+func _build_capital_ship() -> void:
+    var hull := MeshInstance3D.new()
+    hull.name = "Main_Hull"
+    hull.mesh = HULL
+    hull.scale = Vector3.ONE * hull_scale
+    hull.rotation_degrees.x = 90.0
+    hull.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+    add_child(hull)
+
+    _box("Armored_Keel", Vector3(420,70,1850), Vector3(0,-250,0))
+    _box("Dorsal_Spine", Vector3(280,120,1750), Vector3(0,210,40))
+
+    for side in [-1.0, 1.0]:
+        _box("Side_Armor_%s" % side, Vector3(260,110,1550), Vector3(side*520,10,0))
+        _box("Broadside_Belt_%s" % side, Vector3(180,85,1200), Vector3(side*700,-30,80))
+        _box("Engine_Barrier_%s" % side, Vector3(160,170,520), Vector3(side*610,70,690))
+
+    _box("Command_Tower", Vector3(260,190,360), Vector3(0,360,-80))
+    _box("Bridge_Forward", Vector3(210,95,240), Vector3(0,455,-235))
+    _box("Bridge_Armor", Vector3(330,55,300), Vector3(0,500,-90))
+
+    for side in [-1.0, 1.0]:
+        _box("Hangar_Bay_%s" % side, Vector3(250,180,520), Vector3(side*470,-20,-620))
+        _box("Hangar_Door_%s" % side, Vector3(45,145,430), Vector3(side*605,-20,-620))
+
+    for side in [-1.0, 1.0]:
+        for row in range(4):
+            var x := side * (250.0 + row * 120.0)
+            _cylinder("Main_Drive_%s_%d" % [side,row], 82.0-row*8.0, 500.0, Vector3(x,-80,960), Vector3(90,0,0))
+            _cylinder("Drive_Nozzle_%s_%d" % [side,row], 92.0-row*8.0, 100.0, Vector3(x,-80,1240), Vector3(90,0,0))
+
+    for i in range(7):
+        _weapon_battery("Spinal_Battery_%d" % i, Vector3(0,315,-720.0+i*240.0), 0.0)
+
+    for side in [-1.0, 1.0]:
+        for i in range(6):
+            _weapon_battery("Broadside_%s_%d" % [side,i], Vector3(side*690,80,-600.0+i*240.0), side*90.0)
+        for z in [-420.0, -120.0, 180.0, 480.0]:
+            _pd_mount(Vector3(side*540,300,z))
+
+    _cylinder("Sensor_Mast", 24, 260, Vector3(0,560,0), Vector3.ZERO)
+    _box("Sensor_Array", Vector3(420,35,120), Vector3(0,710,0))
+
+func _build_interior() -> void:
+    var decks := Node3D.new()
+    decks.name = "Interior_Decks"
+    add_child(decks)
+    
+    for deck in range(12):
+        _box("Deck%02d" % deck, Vector3(720,8,1500), Vector3(0,-180+deck*32,0), 0.0, decks)
+        
+    _box("Command_Deck", Vector3(500,25,420), Vector3(0,410,-120), 0.0, decks)
+    _box("Engineering_Core", Vector3(600,90,560), Vector3(0,-160,610), 0.0, decks)
+    _box("Hangar_Deck", Vector3(800,30,650), Vector3(0,-20,-620), 0.0, decks)
+    _box("Reactor_Deck", Vector3(420,120,420), Vector3(0,-230,620), 0.0, decks)
+
+    if build_interior:
+        var builder := preload("res://Creepy_Cat/scripts/CapitalShipInteriorBuilder.gd").new()
+        builder.name = "StarterKit_Interior"
+        builder.kit_path = "res://Creepy_Cat/Sci-Fi_Starter_Kit/Prefabs"
+        builder.prefab_limit = interior_modules
+        builder.position = Vector3(0,-150,0)
+        add_child(builder)
+
+func _box(n:String, size:Vector3, pos:Vector3, rot_y:float=0.0, parent:Node=self) -> MeshInstance3D:
+    var m := MeshInstance3D.new()
+    m.name = n
+    var b := BoxMesh.new()
+    b.size = size
+    m.mesh = b
+    m.position = pos
+    m.rotation_degrees.y = rot_y
+    parent.add_child(m)
+    return m
+
+func _cylinder(n:String, radius:float, height:float, pos:Vector3, rot:Vector3) -> MeshInstance3D:
+    var m := MeshInstance3D.new()
+    m.name = n
+    var c := CylinderMesh.new()
+    c.top_radius = radius
+    c.bottom_radius = radius
+    c.height = height
+    m.mesh = c
+    m.position = pos
+    m.rotation_degrees = rot
+    add_child(m)
+    return m
+
+func _weapon_battery(n:String, pos:Vector3, yaw:float) -> void:
+    _cylinder(n+"_Mount", 45, 35, pos, Vector3(0,0,0)).rotation_degrees.y = yaw
+    _box(n+"_Barrel", Vector3(28,28,210), pos+Vector3(0,20,-105), yaw)
+
+func _pd_mount(pos:Vector3) -> void:
+    _cylinder("PointDefense", 22, 55, pos, Vector3.ZERO)
+'''
+open(os.path.join(scripts, "CapitalShipController.gd"), "w").write(controller)
+
+# ----------------------------------------------------
+# INTERIOR BUILDER (Fixed _find_scenes alignment & _ready call)
+# ----------------------------------------------------
+builder = '''extends Node3D
+
+@export var kit_path := "res://Creepy_Cat/Sci-Fi_Starter_Kit/Prefabs"
+@export var prefab_limit := 72
+
+func _ready() -> void:
+    call_deferred("populate")
+
+func populate() -> void:
+    var scenes := _find_scenes(kit_path)
+    var usable: Array[String] = []
+    for path in scenes:
+        var lower := path.to_lower()
+        if "wall" in lower or "floor" in lower or "door_" in lower or "beam_" in lower or "pipe" in lower:
+            usable.append(path)
+            
+    for i in range(mini(prefab_limit, usable.size())):
+        var packed = load(usable[i])
+        if packed is PackedScene:
+            var item = packed.instantiate()
+            item.position = _slot(i)
+            add_child(item)
+
+func _find_scenes(path: String) -> Array[String]:
+    var result: Array[String] = []
+    var dir := DirAccess.open(path)
+    if dir == null: 
+        return result
+        
+    dir.list_dir_begin()
+    var item := dir.get_next()
+    while item != "":
+        if item != "." and item != "..":
+            var full := path.path_join(item)
+            if dir.current_is_dir():
+                result.append_array(_find_scenes(full))
+            elif item.to_lower().ends_with(".tscn"):
+                result.append(full)
+        item = dir.get_next()
+    dir.list_dir_end()
+    return result
+
+func _slot(i: int) -> Vector3:
+    var cols := 6
+    var col := i % cols
+    var row := (i / cols) % 2
+    var deck := i / (cols * 2)
+    return Vector3((col-2.5)*95.0, (deck%12)*32.0-150.0, (row-0.5)*460.0+(deck/12)*520.0-520.0)
+'''
+open(os.path.join(scripts, "CapitalShipInteriorBuilder.gd"), "w").write(builder)
+
+# ----------------------------------------------------
+# CAMERA SCRIPT
+# ----------------------------------------------------
+camera = '''extends Node3D
+
+@export var distance := 4200.0
+@export var height := 900.0
+var camera: Camera3D
+
+func _ready() -> void:
+    camera = Camera3D.new()
+    camera.current = true
+    camera.fov = 55.0
+    add_child(camera)
+
+func _process(_delta: float) -> void:
+    camera.position = Vector3(0, height, distance)
+    camera.look_at(Vector3.ZERO, Vector3.UP)
+'''
+open(os.path.join(scripts, "CapitalShipCamera.gd"), "w").write(camera)
+
+# ----------------------------------------------------
+# TSCN & CONFIG MANAGEMENT
+# ----------------------------------------------------
+scene = '''[gd_scene load_steps=4 format=3]
+[ext_resource type="Script" path="res://Creepy_Cat/scripts/CapitalShipController.gd" id="1"]
+[ext_resource type="Script" path="res://Creepy_Cat/scripts/CapitalShipCamera.gd" id="2"]
+[sub_resource type="Environment" id="Environment_cap"]
+background_mode = 1
+background_color = Color(0.005, 0.008, 0.02, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.16, 0.20, 0.30, 1)
+ambient_light_energy = 0.7
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.25
+
+[node name="CapitalShip" type="Node3D"]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_cap")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-35, -25, 0)
+light_energy = 1.4
+shadow_enabled = true
+
+[node name="FillLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 300, 0)
+omni_range = 1600.0
+light_energy = 3.0
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2")
+'''
+open(os.path.join(scenes, "CapitalShip.tscn"), "w").write(scene)
+
+pg = os.path.join(root, "project.godot")
+txt = open(pg, encoding="utf-8").read()
+txt = re.sub(r'config/name="[^"]*"', 'config/name="Skull Cap — Capital Ship"', txt)
+txt = re.sub(r'run/main_scene="[^"]*"', 'run/main_scene="res://Creepy_Cat/scenes/CapitalShip.tscn"', txt)
+open(pg, "w", encoding="utf-8").write(txt)
+
+readme = '''# Skull Cap — Capital Ship Upgrade
+The supplied Spherocal hull is now the core of a proper capital ship.
+~1.6 km wide, ~2.4 km long hull at the supplied model scale.
+Armored keel, dorsal spine, side armor and broadside belts.
+Protected command tower and bridge.
+Twin hangar bays.
+Eight main drive nacelles.
+Seven spinal weapon batteries, twelve broadside batteries and point defense.
+Sensor mast and array.
+12 interior decks plus command, engineering, reactor and hangar zones.
+Controlled use of the supplied Sci-Fi Starter Kit prefabs inside the ship.
+Dedicated presentation camera and space environment.
+
+shader_type canvas_item;
+
+uniform vec4 arc_color : source_color = vec4(0.2, 0.6, 1.0, 1.0);
+uniform float glow_intensity : hint_range(1.0, 10.0) = 3.0;
+uniform float animation_speed : hint_range(0.0, 20.0) = 10.0;
+uniform float noise_scale : hint_range(1.0, 50.0) = 20.0;
+
+// Pseudo-random noise function
+float noise(vec2 uv) {
+    return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
+void fragment() {
+    // Generate moving coordinates based on time
+    vec2 moving_uv = UV * noise_scale;
+    moving_uv.x -= TIME * animation_speed;
+    
+    // Create animated texture distortion
+    float n = noise(floor(moving_uv));
+    
+    // Calculate distance to the center core of the line
+    float distance_from_center = abs(UV.y - 0.5) * 2.0;
+    
+    // Create a sharp bright core and a smooth falloff glow
+    float core = smoothstep(0.1, 0.0, distance_from_center);
+    float glow = exp(-distance_from_center * 4.0) * n;
+    
+    // Combine shapes and output the high-energy glow color
+    vec4 final_color = arc_color * (core + glow) * glow_intensity;
+    
+    COLOR = vec4(final_color.rgb, final_color.a * (core + glow));
+}
+
+# electricity_arc_2d.gd
+extends Line2D
+# Attach this directly to a Line2D node.
+# To make it glow, enable Glow in a WorldEnvironment node and set Raw Color values above 1.0.
+
+@export var target_node: Node2D      # Optional: Assign a node to snap the end point to
+@export var local_end_point: Vector2 = Vector2(200, 0) # Used if no target_node is assigned
+@export var segments: int = 12         # How many jagged bends the arc has
+@export var displacement: float = 15.0 # Max distance points deviate perpendicularly
+@export var flicker_speed: float = 0.05# How fast the bolt changes shape (in seconds)
+
+var timer: float = 0.0
+
+func _ready() -> void:
+	if not material:
+		var mat := CanvasItemMaterial.new()
+		mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		material = mat
+
+func _process(delta: float) -> void:
+	timer += delta
+	if timer >= flicker_speed:
+		_generate_arc()
+		timer = 0.0
+
+func _generate_arc() -> void:
+	var points_array: Array[Vector2] = []
+	var start_pos := Vector2.ZERO
+	var end_pos := local_end_point
+	
+	if is_instance_valid(target_node):
+		end_pos = to_local(target_node.global_position)
+		
+	points_array.append(start_pos)
+	
+	var total_vector := end_pos - start_pos
+	var segment_vector := total_vector / segments
+	# Perpendicular normal vector for displacement
+	var normal := Vector2(-total_vector.y, total_vector.x).normalized()
+	
+	for i in range(1, segments):
+		var base_pos := start_pos + (segment_vector * i)
+		var rand_offset := randf_range(-displacement, displacement)
+		# Fade out displacement near the start and end anchors for a cleaner look
+		var envelope := sin((float(i) / segments) * PI)
+		var final_pos := base_pos + (normal * rand_offset * envelope)
+		points_array.append(final_pos)
+		
+	points_array.append(end_pos)
+	points = points_array
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/Creepy_Cat/scenes/MassiveShip.tscn
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/Creepy_Cat/scenes/ShipInterior.tscn
+
+extends Node3D
+## Master controller. The original Spherocal hull is enlarged to a capital-ship scale.
+## Starter-kit prefabs are discovered at runtime if copied into res://Sci-Fi_Starter_Kit.
+
+@export var cruise_speed := 45.0
+@export var auto_spin := 0.0
+var _time := 0.0
+
+func _ready() -> void:
+	add_to_group("massive_ship")
+	print("SPHEROCAL MASSIVE SHIP ONLINE")
+	print("Approx hull: 1591m x 2371m x 426m")
+	print("Decks: 12 | Interior builder: online")
+
+func _process(delta: float) -> void:
+	_time += delta
+	if auto_spin != 0.0:
+		rotation.y += auto_spin * delta
+
+func set_engine_power(power: float) -> void:
+	ShipSystems.set_system("engines", power)
+
+func get_ship_status() -> Dictionary:
+	return ShipSystems.ship_status()
+
+
+func _on_prefab_deck_builder_child_exiting_tree(node: Node, source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_child_order_changed(source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_editor_description_changed(node: Node, source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_editor_state_changed(source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_ready(source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_renamed(source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_replacing_by(node: Node, source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_tree_entered(source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_tree_exited(source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_tree_exiting(source: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_property_list_changed(source: Object) -> void:
+	pass # Replace with function body.
+
+
+func _on_prefab_deck_builder_script_changed(source: Object) -> void:
+	pass # Replace with function body.
+
+
+
+extends Node3D
+## Automatically imports scenes from Sci-Fi_Starter_Kit into large deck zones.
+## Put any .tscn prefabs below res://Sci-Fi_Starter_Kit/ and they will be instanced.
+
+@export var kit_path := "res://Sci-Fi_Starter_Kit"
+@export var prefab_limit := 300
+
+func _ready() -> void:
+	var scenes := _find_scenes(kit_path)
+	print("Starter Kit prefabs found: ", scenes.size())
+	_place_prefabs(scenes)
+
+func _find_scenes(path: String) -> Array[String]:
+	var result: Array[String] = []
+	var dir := DirAccess.open(path)
+	if dir == null:
+		return result
+	dir.list_dir_begin()
+	var item := dir.get_next()
+	while item != "":
+		if item == "." or item == "..":
+			item = dir.get_next()
+			continue
+		var full := path.path_join(item)
+		if dir.current_is_dir():
+			result.append_array(_find_scenes(full))
+		elif item.to_lower().ends_with(".tscn"):
+			result.append(full)
+		item = dir.get_next()
+	dir.list_dir_end()
+	return result
+
+func _place_prefabs(paths: Array[String]) -> void:
+	var count := mini(paths.size(), prefab_limit)
+	for i in range(count):
+		var scene := load(paths[i])
+		if scene is PackedScene:
+			var instance := scene.instantiate()
+			instance.position = _grid_position(i)
+			add_child(instance)
+
+func _grid_position(i: int) -> Vector3:
+	var cols := 12
+	var row := i / cols
+	var col := i % cols
+	return Vector3((col - 5.5) * 110.0, ((row % 12) - 5.5) * 30.0, (row / 12 - 3) * 170.0)
+
+
+extends Node3D
+## Generates a huge, lightweight interior framework: decks, corridors, bays and reactor spaces.
+
+@export var decks := 12
+@export var deck_spacing := 30.0
+@export var ship_length := 1900.0
+@export var ship_width := 1250.0
+@export var corridor_spacing := 100.0
+
+func _ready() -> void:
+	_build_interior()
+
+func _build_interior() -> void:
+	var mat := StandardMaterial3D.new()
+	mat.metallic = 0.75
+	mat.roughness = 0.38
+	mat.albedo_color = Color(0.055,0.07,0.095)
+
+	for d in range(decks):
+		var y := (float(d) - float(decks - 1) / 2.0) * deck_spacing
+		_box("Deck_%02d" % d, Vector3(ship_length, 2.0, ship_width), Vector3(0,y,0), mat)
+		# Longitudinal spine
+		_box("Spine_%02d" % d, Vector3(ship_length, 10.0, 18.0), Vector3(0,y+6,0), mat)
+		# Cross corridors
+		for x in range(-8,9):
+			_box("Corridor_X_%02d_%02d" % [d,x], Vector3(12.0, 8.0, ship_width), Vector3(x*100.0,y+7,0), mat)
+	_make_major_bays(mat)
+
+func _make_major_bays(mat: Material3D) -> void:
+	var bays = {
+		"ForwardHangar": Vector3(650, 35, 520),
+		"CentralEngineering": Vector3(260, 35, 420),
+		"AftHangar": Vector3(-650, 35, 520),
+		"ReactorCore": Vector3(-120, 35, 180),
+		"Command": Vector3(780, 65, 220)
+	}
+	@warning_ignore('shadowed_variable_base_class')
+	for name in bays:
+		var p: Vector3 = bays[name]
+		_box(name, Vector3(abs(p.x) * 0.35 + 120, 12, p.z), Vector3(p.x,p.y,p.z*0.15), mat)
+
+func _box(n: String, size: Vector3, pos: Vector3, mat: Material3D) -> void:
+	var mi := MeshInstance3D.new()
+	mi.name = n
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	mi.mesh = mesh
+	mi.position = pos
+	mi.material_override = mat
+	add_child(mi)
+
+
+@warning_ignore('unused_parameter')
+func _on_prefab_deck_builder_visibility_changed(source: Node3D, extra_arg_0: bool, extra_arg_1: bool, extra_arg_2: bool, extra_arg_3: bool, extra_arg_4: bool) -> void:
+	pass # Replace with function body.
+
+
+@warning_ignore('unused_parameter')
+func _on_prefab_deck_builder_child_entered_tree(node: Node, source: Node) -> void:
+	pass # Replace with function body.
+
+
+
+
+extends Node
+## Global ship systems registry for SPHEROCAL.
+
+var ship_scale := Vector3(3.6, 3.6, 3.6)
+var dimensions_m := Vector3(1591.0, 2371.0, 426.0)
+var deck_count := 12
+var prefab_root := "res://Sci-Fi_Starter_Kit"
+
+var systems := {
+	"reactor": 1.0,
+	"engines": 1.0,
+	"life_support": 1.0,
+	"shields": 1.0,
+	"gravity": 1.0
+}
+
+func set_system(name: String, value: float) -> void:
+	systems[name] = clampf(value, 0.0, 1.0)
+
+func ship_status() -> Dictionary:
+	return {"dimensions_m": dimensions_m, "decks": deck_count, "systems": systems.duplicate()}
+
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/Creepy_Cat/shaders/energy_field.gdshader
+
+shader_type spatial;
+render_mode unshaded, blend_add, cull_disabled;
+uniform vec4 color : source_color = vec4(0.05,0.5,1.0,1.0);
+uniform float speed = 1.5;
+uniform float density = 22.0;
+
+void fragment() {
+    float bands = sin((UV.x + UV.y) * density + TIME * speed);
+    float a = smoothstep(0.25,0.9,abs(bands)) * 0.35;
+    ALBEDO = color.rgb;
+    EMISSION = color.rgb * 3.0;
+    ALPHA = a;
+}
+
+
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/Creepy_Cat/shaders/reactor_glow.gdshader
+
+shader_type spatial;
+render_mode unshaded, blend_add;
+uniform vec4 color : source_color = vec4(0.1,0.65,1.0,1.0);
+void fragment() {
+    float pulse = 0.55 + 0.45 * sin(TIME * 3.0);
+    ALBEDO = color.rgb;
+    EMISSION = color.rgb * (4.0 + pulse * 5.0);
+    ALPHA = 0.65;
+}
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/Creepy_Cat/shaders/ship_hull.gdshader
+
+shader_type spatial;
+render_mode cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 hull_color : source_color = vec4(0.035,0.06,0.09,1.0);
+uniform vec4 emissive_color : source_color = vec4(0.0,0.55,1.0,1.0);
+uniform float emissive_strength : hint_range(0.0,8.0) = 1.8;
+uniform float panel_scale = 18.0;
+uniform float edge_glow = 0.7;
+
+void fragment() {
+    vec3 p = VERTEX;
+    vec2 grid = abs(fract(p.xz / panel_scale) - 0.5);
+    float seam = smoothstep(0.46,0.50,max(grid.x,grid.y));
+    float noise_line = step(0.985, fract(sin(dot(p.xz, vec2(12.9898,78.233))) * 43758.5453));
+    ALBEDO = mix(hull_color.rgb * 0.72, hull_color.rgb * 1.25, seam);
+    ROUGHNESS = 0.3;
+    METALLIC = 0.9;
+    EMISSION = emissive_color.rgb * emissive_strength * max(seam * edge_glow, noise_line);
+}
+
+
+# SPHEROCAL — MASSIVE SCI-FI SHIP
+
+Godot 4.x capital-ship expansion built around the supplied Spherocal OBJ.
+
+### Scale
+The supplied hull is enlarged by **3.6×**, producing an approximate envelope of:
+- Length: ~1591 m
+- Width: ~2371 m
+- Height: ~426 m
+- 12 procedural decks
+- Large forward/aft hangars
+- Engineering, reactor and command zones
+
+### Sci-Fi Starter Kit
+Copy your `Sci-Fi_Starter_Kit` folder into the project root:
+`res://Sci-Fi_Starter_Kit/`
+
+`PrefabDeckBuilder.gd` recursively finds `.tscn` scenes and instances up to 300 of them across the interior framework. Adjust `prefab_limit` and `_grid_position()` for your kit.
+
+### Included
+- Godot 4 project and scenes
+- Massive ship controller
+- Procedural deck/interior generator
+- Automatic starter-kit prefab placer
+- Hull panel/emission shader
+- Energy-field shader
+- Reactor glow shader
+
+Open the folder in Godot and press **Run Project**.
+
+
+
+float saturate(float val)
+{
+    return clamp( val, 0.0, 1.0 );
+}
+vec3 saturate(vec3 val)
+{
+    return clamp( val, 0.0, 1.0 );
+}
+void clip(float val)
+{
+    if ( val < 0.0 )
+        discard;
+}
+vec3 UnpackNormalmapRGorAG(vec4 packednormal)
+{
+    // This do the trick
+   packednormal.x *= packednormal.w;
+
+    vec3 normal;
+    normal.xy = packednormal.xy * 2.0 - 1.0;
+    normal.z = sqrt(1.0 - saturate(dot(normal.xy, normal.xy)));
+    return normal;
+}
+vec3 UnpackNormal(vec4 packednormal)
+{
+#if defined(UNITY_NO_DXT5nm)
+    return packednormal.xyz * 2 - 1;
+#elif defined(UNITY_ASTC_NORMALMAP_ENCODING)
+    return UnpackNormalDXT5nm(packednormal);
+#else
+    return UnpackNormalmapRGorAG(packednormal);
+#endif
+}
+vec3 UnpackScaleNormalRGorAG(vec4 packednormal, float bumpScale)
+{
+    #if defined(UNITY_NO_DXT5nm)
+        half3 normal = packednormal.xyz * 2 - 1;
+        #if (SHADER_TARGET >= 30)
+            // SM2.0: instruction count limitation
+            // SM2.0: normal scaler is not supported
+            normal.xy *= bumpScale;
+        #endif
+        return normal;
+    #elif defined(UNITY_ASTC_NORMALMAP_ENCODING)
+        half3 normal;
+        normal.xy = (packednormal.wy * 2 - 1);
+        normal.z = sqrt(1.0 - saturate(dot(normal.xy, normal.xy)));
+        normal.xy *= bumpScale;
+        return normal;
+    #else
+        // This do the trick
+        packednormal.x *= packednormal.w;
+
+        vec3 normal;
+        normal.xy = (packednormal.xy * 2.0 - 1.0);
+        #if 1//(SHADER_TARGET >= 30)
+            // SM2.0: instruction count limitation
+            // SM2.0: normal scaler is not supported
+            normal.xy *= bumpScale;
+        #endif
+        normal.z = sqrt(1.0 - saturate(dot(normal.xy, normal.xy)));
+        return normal;
+    #endif
+}
+
+vec3 UnpackScaleNormal(vec4 packednormal, float bumpScale)
+{
+    return UnpackScaleNormalRGorAG(packednormal, bumpScale);
+}
+vec3 BlendNormals(vec3 n1, vec3 n2)
+{
+    return normalize(vec3(n1.xy + n2.xy, n1.z*n2.z));
+}
+vec4 UnityEdgeLengthBasedTessCull (vec4 v0, vec4 v1, vec4 v2, float edgeLength, float maxDisplacement)
+{
+    //Do nothing, tessellation doesn't work in gdshaders anyway
+    return vec4(0,0,0,0);
+}
+struct appdata_full
+{
+    vec4 vertex;// : POSITION;
+    vec4 tangent;// : TANGENT;
+    vec3 normal;// : NORMAL;
+    vec4 texcoord;// : TEXCOORD0;
+    vec4 texcoord1;// : TEXCOORD1;
+    vec4 texcoord2;// : TEXCOORD2;
+    vec4 texcoord3;// : TEXCOORD3;
+    vec4 color;// : COLOR;
+    //UNITY_VERTEX_INPUT_INSTANCE_ID
+};
+struct SurfaceOutputStandard
+{
+	vec3 Albedo;
+	vec3 Normal;
+	vec3 Emission;
+    float Occlusion;
+	vec3 Specular;
+    float Gloss;
+    float Smoothness;
+    float Metallic;
+	float Alpha;
+};
+#define SurfaceOutput SurfaceOutputStandard
+#define SurfaceOutputStandardSpecular SurfaceOutputStandard
+#define WorldNormalVector( input, vec ) input.worldNormal
+#define mul( x, y ) x * y
+
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/boot_splash_plus/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/DeeplinkPlugin/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/GdPlanningAI/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/GDQuest_GDScript_formatter/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/GMPShared/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/real-controller/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/Creepy_Cat/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/boot_splash_plus/
+
+/storage/emulated/0/Documents/scifi-starter-kit---godot-3/addons/DeeplinkPlugin/
+
+https://share.google/aimode/fHxsKYiKZptXyETvs
+
+https://share.google/aimode/veSHrtOOUGKzJ46It
+
+https://share.google/aimode/CGBBAUyLLfShdorTV
+
+https://share.google/aimode/GRQteHAJYacremLBK
+
+https://share.google/aimode/hEmxml6XpMLKaJwmc
+
+https://share.google/aimode/xLoXpe11maPoJbVFr
+
+https://share.google/aimode/0eMhyogxmvHHIz6dl
+
+#!/usr/bin/env python3
+import os
+import zipfile
+
+# Absolute environmental mappings matching your Android sandbox framework
+SANDBOX_PATH = "/storage/emulated/0/Documents/scifi-starter-kit---godot-3/"
+TARGET_RELEASE_ZIP = "/storage/emulated/0/Documents/skull_cap_capital_ship.zip"
+
+print(f"[*] Commencing automated structural configuration pass inside workspace root: {SANDBOX_PATH}")
+
+# Explicit database dictionary of every framework asset established across pages
+system_files_matrix = {
+    # ----------------------------------------------------
+    # ENGINE METADATA FILE
+    # ----------------------------------------------------
+    "project.godot": """config_version=5
+
+[animation]
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+config/name="Skull Cap — Capital Ship"
+run/main_scene="res://Creepy_Cat/scenes/CapitalShip.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+run/low_processor_mode=true
+run/load_shell_environment=true
+boot_splash/show_image=false
+
+[autoload]
+GdPAIAutoload="*res://addons/GdPlanningAI/ai_completions_engine.gd"
+DeeplinkManager="*res://addons/DeeplinkPlugin/deeplink_manager.gd"
+
+[editor_plugins]
+enabled=PackedStringArray("res://addons/DeeplinkPlugin/plugin.cfg", "res://addons/GDQuest_GDScript_formatter/plugin.cfg", "res://addons/GdPlanningAI/plugin.cfg", "res://addons/boot_splash_plus/plugin.cfg")
+
+[importer_defaults]
+texture={"detect_3d/compress_to": 0}
+animation_library={&"nodes/root_scale": 1000.0}
+
+[input_devices]
+joypads/ignore_joypad_on_unfocused_application=true
+
+[rendering]
+textures/canvas_textures/default_texture_filter=2
+textures/canvas_textures/default_texture_repeat=1
+textures/vram_compression/import_s3tc_bptc=true
+lights_and_shadows/use_physical_light_units=true
+textures/default_filters/anisotropic_filtering_level=4
+viewport/transparent_background=true
+""",
+
+    # ----------------------------------------------------
+    # CENTRAL SCENE INSTANTIATION NODE GRAPH
+    # ----------------------------------------------------
+    "Creepy_Cat/scenes/CapitalShip.tscn": """[gd_scene load_steps=6 format=3 uid="uid://bkbv8t2yunnew"]
+
+[ext_resource type="Script" path="res://Creepy_Cat/scripts/CapitalShipController.gd" id="1"]
+[ext_resource type="Script" path="res://Creepy_Cat/scripts/CapitalShipInteriorBuilder.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://d1fpsplayer001" path="res://Creepy_Cat/scenes/PlayerController.tscn" id="3"]
+
+[sub_resource type="Environment" id="Environment_deep_space"]
+background_mode = 1
+background_color = Color(0.003, 0.005, 0.015, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.12, 0.16, 0.26, 1)
+ambient_light_energy = 0.65
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.3
+
+[sub_resource type="LabelSettings" id="LabelSettings_ui"]
+font_size = 20
+font_color = Color(0.0, 0.75, 1.0, 1.0)
+outline_size = 4
+outline_color = Color(0.0, 0.05, 0.15, 0.9)
+
+[node name="VesselCommandPlatform" type="Node3D"]
+script = ExtResource("1")
+
+[node name="DeepSpaceEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_deep_space")
+
+[node name="PrimarySolarLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906308, -0.242404, 0.346188, 0, 0.819152, 0.573576, -0.422618, -0.519837, 0.742404, 0, 0, 0)
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="InteriorMatrix" type="Node3D" parent="."]
+script = ExtResource("2")
+kit_path = "res://Sci-Fi_Starter_Kit"
+prefab_limit = 300
+
+[node name="FirstPersonCharacter" parent="." instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="HUD"]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 500.0
+offset_bottom = 300.0
+
+[node name="Title" type="Label" parent="HUD/VBox"]
+layout_mode = 2
+text = "COMMAND CONSOLE OS V4.7"
+label_settings = SubResource("LabelSettings_ui")
+
+[node name="Telemetry" type="Label" parent="HUD/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Awaiting Coprocessor Stream..."
+label_settings = SubResource("LabelSettings_ui")
+""",
+
+    # ----------------------------------------------------
+    # HARDWARE RUNTIME SYSTEMS READOUT CONTROLLER
+    # ----------------------------------------------------
+    "Creepy_Cat/scripts/ShipSystems.gd": """extends Node
+class_name ShipSystems
+
+var reactor_power: float = 1.0
+var life_support: float = 1.0
+var shields: float = 1.0
+var engines: float = 1.0
+
+func _ready() -> void:
+	add_to_group("ship_systems_registry")
+	print("[ShipSystems] Control matrix online.")
+
+func set_system_power(system_name: String, value: float) -> void:
+	var clamped_val = clamp(value, 0.0, 1.0)
+	match system_name:
+		"reactor": reactor_power = clamped_val
+		"life_support": life_support = clamped_val
+		"shields": shields = clamped_val
+		"engines": engines = clamped_val
+	print("[ShipSystems] Set system ", system_name, " to power: ", clamped_val)
+""",
+
+    "Creepy_Cat/scripts/CapitalShipController.gd": """extends Node3D
+class_name CapitalShipController
+
+@export var hull_scale := 3.6
+@export var build_interior := true
+@export var interior_modules := 300
+@export var cruise_speed := 45.0
+@export var turn_speed := 0.18
+
+var ship_velocity := 0.0
+var throttle := 0.0
+
+const HULL := preload("res://Creepy_Cat/Sci-Fi_Starter_Kit/spherocal/tinker (2).obj")
+
+func _ready() -> void:
+	add_to_group("massive_ship")
+	_build_capital_ship()
+	_update_hud_interface()
+	print("CAPITAL SHIP ONLINE — Hull Scale: ", hull_scale)
+
+func _physics_process(delta: float) -> void:
+	var thrust := Input.get_axis("ui_down", "ui_up")
+	var yaw := Input.get_axis("ui_left", "ui_right")
+	throttle = clamp(throttle + thrust * delta * 0.25, 0.0, 1.0)
+	ship_velocity = lerp(ship_velocity, throttle * cruise_speed, delta * 0.8)
+	rotation.y += yaw * turn_speed * delta
+	_update_hud_interface()
+
+func set_engine_power(power: float) -> void:
+	throttle = clamp(power, 0.0, 1.0)
+	var systems_node = get_node_or_null("/root/ShipSystems")
+	if systems_node:
+		systems_node.set_system_power("engines", power)
+
+func _build_capital_ship() -> void:
+	var hull := MeshInstance3D.new()
+	hull.name = "Main_Hull_Mesh"
+	hull.mesh = HULL
+	hull.scale = Vector3.ONE * hull_scale
+	hull.rotation_degrees.x = 90.0
+	hull.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	add_child(hull)
+
+	_box("Armored_Keel", Vector3(420,70,1850), Vector3(0,-250,0))
+	_box("Dorsal_Spine", Vector3(280,120,1750), Vector3(0,210,40))
+	
+	for side in [-1.0, 1.0]:
+		_box("Side_Armor_%s" % side, Vector3(260,110,1550), Vector3(side*520,10,0))
+		_box("Broadside_Belt_%s" % side, Vector3(180,85,1200), Vector3(side*700,-30,80))
+		_box("Engine_Barrier_%s" % side, Vector3(160,170,520), Vector3(side*610,70,690))
+
+	_box("Command_Tower", Vector3(260,190,360), Vector3(0,360,-80))
+	_box("Bridge_Forward", Vector3(210,95,240), Vector3(0,455,-235))
+	_box("Bridge_Armor", Vector3(330,55,300), Vector3(0,500,-90))
+
+	for side in [-1.0, 1.0]:
+		_box("Hangar_Bay_%s" % side, Vector3(250,180,520), Vector3(side*470,-20,-620))
+		_box("Hangar_Door_%s" % side, Vector3(45,145,430), Vector3(side*605,-20,-620))
+
+	for side in [-1.0, 1.0]:
+		for row in range(4):
+			var x := side * (250.0 + row * 120.0)
+			_cylinder("Main_Drive_%s_%d" % [side,row], 82.0-row*8.0, 500.0, Vector3(x,-80,960), Vector3(90,0,0))
+			_cylinder("Drive_Nozzle_%s_%d" % [side,row], 92.0-row*8.0, 100.0, Vector3(x,-80,1240), Vector3(90,0,0))
+
+	for i in range(7):
+		_weapon_battery("Spinal_Battery_%d" % i, Vector3(0,315,-720.0+i*240.0), 0.0)
+
+	for side in [-1.0, 1.0]:
+		for i in range(6):
+			_weapon_battery("Broadside_%s_%d" % [side,i], Vector3(side*690,80,-600.0+i*240.0), side*90.0)
+		for z in [-420.0, -120.0, 180.0, 480.0]:
+			_pd_mount(Vector3(side*540,300,z))
+
+	_cylinder("Sensor_Mast", 24, 260, Vector3(0,560,0), Vector3.ZERO)
+	_box("Sensor_Array", Vector3(420,35,120), Vector3(0,710,0))
+
+func _box(n:String, size:Vector3, pos:Vector3, rot_y:float=0.0) -> MeshInstance3D:
+	var m := MeshInstance3D.new()
+	m.name = n
+	var b := BoxMesh.new()
+	b.size = size
+	m.mesh = b
+	m.position = pos
+	m.rotation_degrees.y = rot_y
+	add_child(m)
+	m.create_trimesh_collision()
+	return m
+
+func _cylinder(n:String, radius:float, height:float, pos:Vector3, rot:Vector3) -> MeshInstance3D:
+	var m := MeshInstance3D.new()
+	m.name = n
+	var c := CylinderMesh.new()
+	c.top_radius = radius
+	c.bottom_radius = radius
+	c.height = height
+	m.mesh = c
+	m.position = pos
+	m.rotation_degrees = rot
+	add_child(m)
+	m.create_trimesh_collision()
+	return m
+
+func _weapon_battery(n:String, pos:Vector3, yaw:float) -> void:
+	_cylinder(n+"_Mount", 45, 35, pos, Vector3(0,0,0)).rotation_degrees.y = yaw
+	_box(n+"_Barrel", Vector3(28,28,210), pos+Vector3(0,20,-105), yaw)
+
+func _pd_mount(pos:Vector3) -> void:
+	_cylinder("PointDefense", 22, 55, pos, Vector3.ZERO)
+
+func _update_hud_interface() -> void:
+	var label: Label = get_node_or_null("%Telemetry")
+	if label:
+		label.text = "Envelope: 1591m x 2371m\\nVelocity: %.2f m/s\\nThrottle: %d%%\\nEngines Active: true" % [ship_velocity, throttle * 100.0]
+""",
+
+    "Creepy_Cat/scripts/CapitalShipInteriorBuilder.gd": """extends Node3D
+class_name CapitalShipInteriorBuilder
+
+@export var kit_path := "res://Sci-Fi_Starter_Kit"
+@export var prefab_limit := 300
+
+func _ready() -> void:
+	call_deferred("populate_interior_matrix")
+
+func populate_interior_matrix() -> void:
+	var files := _find_scenes_recursively(kit_path)
+	var matching_prefabs: Array[String] = []
+	for file in files:
+		var low_name = file.to_lower()
+		if "wall" in low_name or "floor" in low_name or "door" in low_name or "beam" in low_name or "pipe" in low_name:
+			matching_prefabs.append(file)
+			
+	var loop_count = mini(prefab_limit, matching_prefabs.size())
+	for idx in range(loop_count):
+		var res = load(matching_prefabs[idx])
+		if res is PackedScene:
+			var node = res.instantiate()
+			node.position = _calculate_grid_position(idx)
+			add_child(node)
+
