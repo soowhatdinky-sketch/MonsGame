@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgtj1"]
+
+[ext_resource type="PackedScene" uid="uid://baty" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Simple_04_Long.glb" id="1_baty"]
+[ext_resource type="Material" uid="uid://33m" path="res://Mons_game/MonsGame/Materials/Others/Glass.tres" id="2_33m"]
+
+[node name="Wall_Simple_04_Long" unique_id=857983781 instance=ExtResource("1_baty")]
+
+[node name="Glass" parent="." index="0" unique_id=1751947839]
+surface_material_override/0 = ExtResource("2_33m")

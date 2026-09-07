@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgf21"]
+
+[ext_resource type="PackedScene" uid="uid://833" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Cube_01_Round.glb" id="1_833"]
+[ext_resource type="Material" uid="uid://3p7" path="res://Mons_game/MonsGame/Materials/HD_Wall_04_Norm.tres" id="2_3p7"]
+[ext_resource type="Material" uid="uid://34e" path="res://Mons_game/MonsGame/Materials/HD_Wall_02_Norm.tres" id="4_34e"]
+
+[node name="Wall_Cube_01_Round" unique_id=1227828334 instance=ExtResource("1_833")]
+
+[node name="Wall_Cube_01_Round" parent="." index="0" unique_id=753029263]
+surface_material_override/0 = ExtResource("2_3p7")
+surface_material_override/1 = ExtResource("4_34e")
+surface_material_override/2 = ExtResource("4_34e")

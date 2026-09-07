@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itggji"]
+
+[ext_resource type="PackedScene" uid="uid://b7k54dl50qom" path="res://Mons_game/MonsGame/Library/default resourcesGlow_Strong.glb" id="1_va"]
+[ext_resource type="Material" uid="uid://33e" path="res://Mons_game/MonsGame/Materials/Others/Glow_Strong.tres" id="2_33e"]
+
+[node name="unity default resourcesGlow_Strong" unique_id=1956211432 instance=ExtResource("1_va")]
+
+[node name="Quad" parent="." index="0" unique_id=215219399]
+surface_material_override/0 = ExtResource("2_33e")

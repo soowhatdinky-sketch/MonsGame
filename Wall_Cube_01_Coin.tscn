@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgv2e"]
+
+[ext_resource type="PackedScene" uid="uid://bbgy" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Cube_01_Coin.glb" id="1_bbgy"]
+[ext_resource type="Material" uid="uid://34e" path="res://Mons_game/MonsGame/Materials/HD_Wall_02_Norm.tres" id="2_34e"]
+
+[node name="Wall_Cube_01_Coin" unique_id=82833059 instance=ExtResource("1_bbgy")]
+
+[node name="Wall_Cube_01_Coin" parent="." index="0" unique_id=1381045371]
+surface_material_override/0 = ExtResource("2_34e")

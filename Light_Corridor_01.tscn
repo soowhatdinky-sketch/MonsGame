@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgvuy"]
+
+[ext_resource type="PackedScene" uid="uid://837" path="res://Mons_game/MonsGame/Meshes/Lights/Light_Corridor_01.glb" id="1_837"]
+[ext_resource type="Material" uid="uid://3uk" path="res://Mons_game/MonsGame/Materials/HD_Stuff_01_Norm.tres" id="2_3uk"]
+
+[node name="Light_Corridor_01" unique_id=1976973170 instance=ExtResource("1_837")]
+
+[node name="Light_Corridor_01" parent="." index="0" unique_id=603743519]
+surface_material_override/0 = ExtResource("2_3uk")

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgrys"]
+
+[ext_resource type="PackedScene" uid="uid://bt6ibenkrm7tp" path="res://Mons_game/MonsGame/Meshes/Roofs/Roof_Glass_01_6x6Glass.glb" id="1_baay"]
+[ext_resource type="Material" uid="uid://33m" path="res://Mons_game/MonsGame/Materials/Others/Glass.tres" id="2_33m"]
+
+[node name="Roof_Glass_01_6x6Glass" unique_id=641021459 instance=ExtResource("1_baay")]
+
+[node name="Glass" parent="." index="0" unique_id=1340709198]
+surface_material_override/0 = ExtResource("2_33m")

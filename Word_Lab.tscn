@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itglm5"]
+
+[ext_resource type="PackedScene" uid="uid://871" path="res://Mons_game/MonsGame/Meshes/Symbols/Word_Lab.glb" id="1_871"]
+[ext_resource type="Material" uid="uid://3ng" path="res://Mons_game/MonsGame/Materials/HD_Alpha_01_Norm.tres" id="2_3ng"]
+
+[node name="Word_Lab" unique_id=303944894 instance=ExtResource("1_871")]
+
+[node name="Word_Lab" parent="." index="0" unique_id=1969454446]
+surface_material_override/0 = ExtResource("2_3ng")

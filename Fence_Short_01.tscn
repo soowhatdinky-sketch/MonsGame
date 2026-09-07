@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgh1s"]
+
+[ext_resource type="PackedScene" uid="uid://baae" path="res://Mons_game/MonsGame/Meshes/Fences/Fence_Short_01.glb" id="1_baae"]
+[ext_resource type="Material" uid="uid://3uk" path="res://Mons_game/MonsGame/Materials/HD_Stuff_01_Norm.tres" id="2_3uk"]
+
+[sub_resource type="BoxShape3D" id="0_d4n4u"]
+size = Vector3(0.2500005, 2.500001, 1.304114)
+
+[node name="Fence_Short_01" unique_id=1048260304 instance=ExtResource("1_baae")]
+
+[node name="Fence_Short_01" parent="." index="0" unique_id=579958219]
+surface_material_override/0 = ExtResource("2_3uk")
+
+[node name="StaticBody" type="StaticBody3D" parent="." index="1" unique_id=981374992]
+
+[node name="BoxCollider_0" type="CollisionShape3D" parent="StaticBody" index="0" unique_id=545261950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0.65206)
+shape = SubResource("0_d4n4u")
+debug_fill = false

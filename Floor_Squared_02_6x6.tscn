@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://d4n4ub6itg15u"]
+
+[ext_resource type="PackedScene" uid="uid://baps" path="res://Mons_game/MonsGame/Meshes/Floors/Floor_Squared_02_6x6.glb" id="1_baps"]
+[ext_resource type="Material" uid="uid://3re" path="res://Mons_game/MonsGame/Materials/HD_Floor_02_Norm.tres" id="2_3re"]
+[ext_resource type="Material" uid="uid://307" path="res://Mons_game/MonsGame/Materials/HD_Alpha_02_Norm.tres" id="3_307"]
+
+[sub_resource type="BoxShape3D" id="0_d4n4u"]
+size = Vector3(6, 6.000001, 0.7500003)
+
+[node name="Floor_Squared_02_6x6" unique_id=1629961249 instance=ExtResource("1_baps")]
+
+[node name="Floor_02_6x6" parent="." index="0" unique_id=840934932]
+surface_material_override/0 = ExtResource("2_3re")
+surface_material_override/1 = ExtResource("3_307")
+
+[node name="StaticBody" type="StaticBody3D" parent="." index="1" unique_id=1028149310]
+
+[node name="BoxCollider_0" type="CollisionShape3D" parent="StaticBody" index="0" unique_id=1870731315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -3, -0.375)
+shape = SubResource("0_d4n4u")
+debug_fill = false

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgubm"]
+
+[ext_resource type="PackedScene" uid="uid://bbkm" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Inclined_02_Long.glb" id="1_bbkm"]
+[ext_resource type="Material" uid="uid://34e" path="res://Mons_game/MonsGame/Materials/HD_Wall_02_Norm.tres" id="2_34e"]
+[ext_resource type="Material" uid="uid://32s" path="res://Mons_game/MonsGame/Materials/HD_Wall_01_Norm.tres" id="3_32s"]
+[ext_resource type="Material" uid="uid://3s5" path="res://Mons_game/MonsGame/Materials/HD_Wall_08_Norm.tres" id="4_3s5"]
+[ext_resource type="Material" uid="uid://3oe" path="res://Mons_game/MonsGame/Materials/HD_Wall_06_Norm.tres" id="5_3oe"]
+
+[node name="Wall_Inclined_02_Long" unique_id=883773884 instance=ExtResource("1_bbkm")]
+
+[node name="Wall_Inclined_02_Long" parent="." index="0" unique_id=1924445353]
+surface_material_override/0 = ExtResource("2_34e")
+surface_material_override/1 = ExtResource("3_32s")
+surface_material_override/2 = ExtResource("4_3s5")
+surface_material_override/3 = ExtResource("5_3oe")

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itget5"]
+
+[ext_resource type="PackedScene" uid="uid://cy1vvxlg7xp5m" path="res://Mons_game/MonsGame/Meshes/Walls/Porthole_01_LongGlass.glb" id="1_baxg"]
+[ext_resource type="Material" uid="uid://33m" path="res://Mons_game/MonsGame/Materials/Others/Glass.tres" id="2_33m"]
+
+[node name="Porthole_01_LongGlass" unique_id=1969151222 instance=ExtResource("1_baxg")]
+
+[node name="Glass" parent="." index="0" unique_id=354577385]
+surface_material_override/0 = ExtResource("2_33m")

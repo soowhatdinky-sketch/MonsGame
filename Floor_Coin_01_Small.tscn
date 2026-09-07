@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgvvi"]
+
+[ext_resource type="PackedScene" uid="uid://baoq" path="res://Mons_game/MonsGame/Meshes/Floors/Floor_Coin_01_Small.glb" id="1_baoq"]
+[ext_resource type="Material" uid="uid://3re" path="res://Mons_game/MonsGame/Materials/HD_Floor_02_Norm.tres" id="2_3re"]
+
+[sub_resource type="BoxShape3D" id="0_d4n4u"]
+size = Vector3(2, 2, 4.263256e-14)
+
+[node name="Floor_Coin_01_Small" unique_id=770635339 instance=ExtResource("1_baoq")]
+
+[node name="Floor_Coin_01_Small" parent="." index="0" unique_id=907005887]
+surface_material_override/0 = ExtResource("2_3re")
+
+[node name="StaticBody" type="StaticBody3D" parent="." index="1" unique_id=714984620]
+
+[node name="BoxCollider_0" type="CollisionShape3D" parent="StaticBody" index="0" unique_id=685774151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 0)
+shape = SubResource("0_d4n4u")
+debug_fill = false

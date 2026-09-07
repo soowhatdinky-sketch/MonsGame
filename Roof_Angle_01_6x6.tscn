@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgwkq"]
+
+[ext_resource type="PackedScene" uid="uid://86g" path="res://Mons_game/MonsGame/Meshes/Roofs/Roof_Angle_01_6x6.glb" id="1_86g"]
+[ext_resource type="Material" uid="uid://34a" path="res://Mons_game/MonsGame/Materials/HD_Floor_01_Norm.tres" id="2_34a"]
+
+[node name="Roof_Angle_01_6x6" unique_id=895709334 instance=ExtResource("1_86g")]
+
+[node name="Roof_Angle_01_6x6" parent="." index="0" unique_id=938328765]
+surface_material_override/0 = ExtResource("2_34a")

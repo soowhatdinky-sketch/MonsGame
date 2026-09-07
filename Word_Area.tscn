@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgp7u"]
+
+[ext_resource type="PackedScene" uid="uid://bbmq" path="res://Mons_game/MonsGame/Meshes/Symbols/Word_Area.glb" id="1_bbmq"]
+[ext_resource type="Material" uid="uid://3ng" path="res://Mons_game/MonsGame/Materials/HD_Alpha_01_Norm.tres" id="2_3ng"]
+
+[node name="Word_Area" unique_id=330391240 instance=ExtResource("1_bbmq")]
+
+[node name="Word_Area" parent="." index="0" unique_id=636996903]
+surface_material_override/0 = ExtResource("2_3ng")

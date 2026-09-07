@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://d4n4ub6itguvm"]
+
+[ext_resource type="PackedScene" uid="uid://bbeu" path="res://Mons_game/MonsGame/Meshes/Stuff/Grid_01.glb" id="1_bbeu"]
+[ext_resource type="Material" uid="uid://307" path="res://Mons_game/MonsGame/Materials/HD_Alpha_02_Norm.tres" id="2_307"]
+
+[sub_resource type="BoxShape3D" id="0_d4n4u"]
+size = Vector3(0.1279574, 1.999668, 3.250768)
+
+[node name="Grid_01" unique_id=1004593352 instance=ExtResource("1_bbeu")]
+
+[node name="Grid_01" parent="." index="0" unique_id=1194456329]
+surface_material_override/0 = ExtResource("2_307")
+
+[node name="StaticBody" type="StaticBody3D" parent="." index="1" unique_id=135984136]
+
+[node name="BoxCollider_0" type="CollisionShape3D" parent="StaticBody" index="0" unique_id=1971155109]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.62538)
+shape = SubResource("0_d4n4u")
+debug_fill = false

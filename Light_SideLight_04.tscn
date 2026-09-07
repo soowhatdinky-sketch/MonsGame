@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itglce"]
+
+[ext_resource type="PackedScene" uid="uid://baoa" path="res://Mons_game/MonsGame/Meshes/Lights/Light_SideLight_04.glb" id="1_baoa"]
+[ext_resource type="Material" uid="uid://3uk" path="res://Mons_game/MonsGame/Materials/HD_Stuff_01_Norm.tres" id="2_3uk"]
+
+[node name="Light_SideLight_04" unique_id=1723609721 instance=ExtResource("1_baoa")]
+
+[node name="Light_SideLight_04" parent="." index="0" unique_id=1295339889]
+surface_material_override/0 = ExtResource("2_3uk")

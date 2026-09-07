@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgn7q"]
+
+[ext_resource type="PackedScene" uid="uid://ban1" path="res://Mons_game/MonsGame/Meshes/Symbols/Num_1.glb" id="1_ban1"]
+[ext_resource type="Material" uid="uid://3ng" path="res://Mons_game/MonsGame/Materials/HD_Alpha_01_Norm.tres" id="2_3ng"]
+
+[node name="Num_1" unique_id=1112721156 instance=ExtResource("1_ban1")]
+
+[node name="Num_1" parent="." index="0" unique_id=1222897813]
+surface_material_override/0 = ExtResource("2_3ng")

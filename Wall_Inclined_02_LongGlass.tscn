@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgube"]
+
+[ext_resource type="PackedScene" uid="uid://cr4u4bs8keuu3" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Inclined_02_LongGlass.glb" id="1_bbko"]
+[ext_resource type="Material" uid="uid://33m" path="res://Mons_game/MonsGame/Materials/Others/Glass.tres" id="2_33m"]
+
+[node name="Wall_Inclined_02_LongGlass" unique_id=1877200658 instance=ExtResource("1_bbko")]
+
+[node name="Glass" parent="." index="0" unique_id=1143522774]
+surface_material_override/0 = ExtResource("2_33m")

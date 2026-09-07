@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://d4n4ub6itg1vm"]
+
+[ext_resource type="PackedScene" uid="uid://baoi" path="res://Mons_game/MonsGame/Meshes/Floors/Floor_Third_03_Strip_2x6.glb" id="1_baoi"]
+[ext_resource type="Material" uid="uid://3re" path="res://Mons_game/MonsGame/Materials/HD_Floor_02_Norm.tres" id="2_3re"]
+
+[sub_resource type="BoxShape3D" id="0_d4n4u"]
+size = Vector3(3.974671, 6, 1.430512e-06)
+
+[node name="Floor_Third_03_Strip_2x6" unique_id=1997547672 instance=ExtResource("1_baoi")]
+
+[node name="Floor_Third_03_Strip_2x6" parent="." index="0" unique_id=1154526710]
+surface_material_override/0 = ExtResource("2_3re")
+
+[node name="StaticBody" type="StaticBody3D" parent="." index="1" unique_id=97795866]
+
+[node name="BoxCollider_0" type="CollisionShape3D" parent="StaticBody" index="0" unique_id=1050015967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.98734, -3, 0)
+shape = SubResource("0_d4n4u")
+debug_fill = false

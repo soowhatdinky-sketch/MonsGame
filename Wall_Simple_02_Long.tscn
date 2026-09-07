@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgyvo"]
+
+[ext_resource type="PackedScene" uid="uid://ba5a" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Simple_02_Long.glb" id="1_ba5a"]
+[ext_resource type="Material" uid="uid://34e" path="res://Mons_game/MonsGame/Materials/HD_Wall_02_Norm.tres" id="2_34e"]
+[ext_resource type="Material" uid="uid://32s" path="res://Mons_game/MonsGame/Materials/HD_Wall_01_Norm.tres" id="3_32s"]
+[ext_resource type="Material" uid="uid://335" path="res://Mons_game/MonsGame/Materials/HD_Wall_03_Norm.tres" id="4_335"]
+
+[node name="Wall_Simple_02_Long" unique_id=1672957397 instance=ExtResource("1_ba5a")]
+
+[node name="Wall_Simple_03_Long" parent="." index="0" unique_id=1125275382]
+surface_material_override/0 = ExtResource("2_34e")
+surface_material_override/1 = ExtResource("3_32s")
+surface_material_override/2 = ExtResource("4_335")

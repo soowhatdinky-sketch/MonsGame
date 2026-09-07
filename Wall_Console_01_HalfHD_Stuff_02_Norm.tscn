@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgt2q"]
+
+[ext_resource type="PackedScene" uid="uid://bitplgn5yi4x4" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Console_01_HalfHD_Stuff_02_Norm.glb" id="1_bblk"]
+[ext_resource type="Material" uid="uid://331" path="res://Mons_game/MonsGame/Materials/HD_Stuff_02_Norm.tres" id="2_331"]
+
+[node name="Wall_Console_01_HalfHD_Stuff_02_Norm" unique_id=1548524718 instance=ExtResource("1_bblk")]
+
+[node name="Wall_Console_01_Half" parent="." index="0" unique_id=544527147]
+surface_material_override/0 = ExtResource("2_331")

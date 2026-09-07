@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4n4ub6itgeni"]
+
+[ext_resource type="PackedScene" uid="uid://basi" path="res://Mons_game/MonsGame/Meshes/Walls/Wall_Console_01_Large.glb" id="1_basi"]
+[ext_resource type="Material" uid="uid://3yc" path="res://Mons_game/MonsGame/Materials/HUD_Screen_01.tres" id="2_3yc"]
+
+[node name="Wall_Console_01_Large" unique_id=455033069 instance=ExtResource("1_basi")]
+
+[node name="Screen_A" parent="." index="0" unique_id=1644662293]
+surface_material_override/0 = ExtResource("2_3yc")
