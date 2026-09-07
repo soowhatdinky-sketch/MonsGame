@@ -1,0 +1,8 @@
+[project]
+name = "nemotron-3-nano-sandbox"
+version = "0.1.0"
+description = "Local Ollama smoke test and benchmark for Nemotron 3 Nano 4B"
+requires-python = ">=3.11"
+
+[tool.uv]
+package = false

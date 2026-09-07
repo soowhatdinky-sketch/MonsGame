@@ -1,0 +1,2 @@
+﻿NAME                  ID              SIZE      PROCESSOR          CONTEXT    UNTIL              
+nemotron-3-nano:4b    6cc467f05439    5.2 GB    14%/86% CPU/GPU    2048       2 minutes from now    

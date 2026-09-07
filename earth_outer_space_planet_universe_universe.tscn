@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://irgi8peid0oy"]
+
+[ext_resource type="Texture2D" uid="uid://bbccog1sy3xhv" path="res://Mons_game/earth-outer-space-planet-universe-universe.jpg" id="1_aji6y"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_73eo6"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-400, -400.5, 0, 800, 801, 0),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 34393296913,
+"index_count": 6,
+"index_data": PackedByteArray(0, 0, 3, 0, 2, 0, 2, 0, 1, 0, 0, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 200, 195, 0, 64, 200, 195, 0, 0, 200, 195, 0, 64, 200, 67, 0, 0, 200, 67, 0, 64, 200, 67, 0, 0, 200, 67, 0, 64, 200, 195)
+}]
+
+[node name="EarthOuterSpacePlanetUniverseUniverse" type="MeshInstance2D" unique_id=1353290525]
+mesh = SubResource("ArrayMesh_73eo6")
+texture = ExtResource("1_aji6y")

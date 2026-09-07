@@ -1,444 +1,155 @@
-## GdScript2All
-A tool for converting [Godot](https://github.com/godotengine/godot)'s GdScript to other languages (currently C# and c++) with features like type inference. Requires [Python installed](https://www.python.org/downloads/) (tested with 3.12.5).  
+<div align="center">
 
-#### Editor addon
-Available from the Asset Store tab in editor or alternatively [download as zip](https://github.com/Lcbx/GdScript2All/zipball/main/) and extract into your project.  
-Enable in Project Settings->Plugins then you're set.  
-To use, drag&drop files and folders from the FileSystem dock then click convert.  
-<img style='height: 95%; width: 95%;' src="Screenshot.png">
+![Nemotron Nano Identity](./assets/nano-identity.svg)
 
+# Nemotron-3-Nano Sandbox
 
-#### From the command line
-call the main script using your favorite command line utility (add ```-t Cpp``` for c++) :
-```bash
-python addons/gd2all/converter/main.py <file_or_folder_path> -o <output_file_or_folder_path>
+Reproducible local benchmark workspace for `nemotron-3-nano:4b` on Windows with Ollama and `uv`.
+
+</div>
+
+![Model](https://img.shields.io/badge/Model-nemotron--3--nano%3A4b-0ea5e9?style=for-the-badge)
+![Context](https://img.shields.io/badge/Context-2048-0ea5e9?style=for-the-badge)
+![Repeat](https://img.shields.io/badge/Repeat-5-0ea5e9?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-14b8a6?style=for-the-badge)
+
+[English](README.md) | [Japanese](README.ja.md)
+
+## Overview
+
+- Last benchmark timestamp: `2026-03-25 21:09:15 +09:00`
+- Model tag: `nemotron-3-nano:4b`
+- Ollama: `0.18.2`
+- uv: `0.10.8`
+- Shell: `PowerShell`
+- GPU: `NVIDIA GeForce RTX 3060 Laptop GPU`
+- Context length: `2048`
+- Repeat count: `5`
+- Source of truth: [`benchmark_latest.json`](./benchmark_latest.json)
+
+Additional evidence files:
+
+- [`ollama_ps.txt`](./ollama_ps.txt): `SIZE 5.2 GB`, `14%/86% CPU/GPU`, `CONTEXT 2048`
+- [`nvidia_smi.txt`](./nvidia_smi.txt): `5838 MiB / 6144 MiB` snapshot at capture time
+- [`ollama_version.txt`](./ollama_version.txt), [`uv_version.txt`](./uv_version.txt), [`benchmark_timestamp.txt`](./benchmark_timestamp.txt)
+
+## Purpose
+
+- Confirm that `nemotron-3-nano:4b` can run locally on this workstation through Ollama.
+- Preserve one benchmark run as auditable evidence rather than relying on anecdotal notes.
+- Provide a repeatable Windows wrapper and a minimal Python harness for future reruns.
+
+## Prerequisites
+
+- Windows with PowerShell
+- Ollama installed locally
+- `uv` installed locally
+
+`run_benchmark.ps1` resolves executables in this order:
+
+1. Explicit parameters `-OllamaExe` and `-UvExe`
+2. Environment variables `OLLAMA_EXE` and `UV_EXE`
+3. `PATH`
+4. Common Windows install paths for Ollama and `uv`
+
+## Quick Start
+
+Primary command:
+
+```powershell
+.\run_benchmark.ps1 -Model nemotron-3-nano:4b -NumCtx 2048 -Repeat 5
 ```
 
-### Example
-script input :
-```GDScript
-@tool
-extends Node
-
-# line comment
-
-""" multiline
-   comment
-"""
-
-class Nested1 extends test: pass
-
-enum {UNIT_NEUTRAL, UNIT_ENEMY, UNIT_ALLY}
-enum NamedEnum {THING_1, THING_2, ANOTHER_THING = -1}
-
-@export
-var export
-
-@export_group('group')
-
-@export_flags("Self:4", "Allies:8", "Foes:16")
-var export_flags : int
-
-# basic property definitions / expressions
-static var i = 0
-const STRING_CONSTANT = 'the fox said "get off my lawn"'
-var big_str : string = """
-    this is a multiline string """
-var array = [0,1,2]
-var has_call = 3 in array
-var dict := {0:1, 1:2, 2:3}
-var string_array : Array[string] = ['0','1']
-
-# type inference
-var j = i
-func method(param = 5.):
-    for k in string_array:
-        print(k)
-    return val * param
-
-# determine type based on godot doc
-var x = self.get_parent()
-var aClass = ProjectSettings.get_global_class_list()[10]
-const enum = RenderingServer.SHADER_SPATIAL
-
-# Gdscript special syntax
-var get_node = $node
-var get_node2 = $"../node"
-var get_unique_node = %unique_node
-var preload_resource = preload("res://path")
-var load_resource = load("res://path")
-
-var sprite : Sprite2D :
-    set (value):
-        sprite = value
-        sprite.position = Vector2(1,2)
-        sprite.position += Vector2(1,2) # cpp will need help here
-    get:
-        return sprite
-
-# signals
-signal jump
-signal movement(dir:Vector3, speed:float)
-
-func async_function():
-    await jump
-    await get_tree().process_frame
-    
-    get_tree().process_frame.emit(.7)
-    
-    var myLambda = func(): print("look ma i'm jumping")
-    
-    # lambdas are not perfectly translated
-    jump.connect( myLambda )
-    
-    movement.emit(Vector3.UP, .1)
-
-# _ready generation when @onready is used
-@onready var k = 42
-
-
-```
-C# output :
-```cs
-using Godot;
-using Godot.Collections;
-
-
-// line comment
-
-/* multiline
-   comment
-*/
-[Tool]
-[GlobalClass]
-public partial class test : Godot.Node
-{
-    [Tool]
-    public partial class Nested1 : Godot.test
-    {
-
-    }
-
-    public enum Enum0 {UNIT_NEUTRAL, UNIT_ENEMY, UNIT_ALLY}
-    public enum NamedEnum {THING_1, THING_2, ANOTHER_THING =  - 1}
-
-    [Export]
-    public Godot.Variant Export;
-
-    [ExportGroup("group")]
-
-    [Export(PropertyHint.Flags, "Self:4,Allies:8,Foes:16")]
-    public int ExportFlags;
-
-
-    // basic property definitions / expressions
-    public static int I = 0;
-    public const string STRING_CONSTANT = "the fox said \"get off my lawn\"";
-    public string BigStr = @"
-    this is a multiline string ";
-    public Array Array = new Array{0, 1, 2, };
-    public bool HasCall = Array.Contains(3);
-    public Dictionary Dict = new Dictionary{{0, 1},{1, 2},{2, 3},};
-    public Array<string> StringArray = new Array{"0", "1", };
-
-
-    // type inference
-    public int J = I;
-    public double Method(double param = 5.0)
-    {
-        foreach(string k in StringArray)
-        {
-            GD.Print(K);
-        }
-        return val * param;
-    }
-
-
-    // determine type based on godot doc
-    public Godot.Node X = this.GetParent();
-    public Dictionary AClass = Godot.ProjectSettings.GetGlobalClassList()[10];
-    public const RenderingServer.ShaderMode Enum = Godot.RenderingServer.ShaderMode.ShaderSpatial;
-
-
-    // Gdscript special syntax
-    public Godot.Node GetNode = GetNode("node");
-    public Godot.Node GetNode2 = GetNode("../node");
-    public Godot.Node GetUniqueNode = GetNode("%unique_node");
-    public Godot.Resource PreloadResource = /* preload has no equivalent, add a 'ResourcePreloader' Node in your scene */("res://path");
-    public Godot.Resource LoadResource = Load("res://path");
-
-    public Godot.Sprite2D Sprite
-    {
-        set
-        {
-            _Sprite = value;
-            _Sprite.Position = new Vector2(1, 2);
-            _Sprite.Position += new Vector2(1, 2);
-        }
-        // cpp will need help here
-        get
-        {
-            return _Sprite;
-        }
-    }
-    private Godot.Sprite2D _Sprite;
-
-
-    // signals
-    [Signal]
-    public delegate void JumpEventHandler();
-    [Signal]
-    public delegate void MovementEventHandler(Vector3 dir, double speed);
-
-    public void AsyncFunction()
-    {
-        await ToSignal(this, "Jump");
-        await ToSignal(GetTree(), "ProcessFrame");
-
-        GetTree().EmitSignal("ProcessFrame", 0.7);
-
-        var myLambda = () =>
-        {    GD.Print("look ma i'm jumping");
-        };
-
-
-        // lambdas are not perfectly translated
-        Jump += myLambda;
-
-        EmitSignal("Movement", Vector3.Up, 0.1);
-    }
-
-
-    // _ready generation when @onready is used
-    public int K;
-
-
-    public override void _Ready()
-    {
-        K = 42;
-    }
-}
-```
-c++ output (header) :
-```c++
-
-#ifndef TEST_H
-#define TEST_H
-
-#include <godot_cpp/godot.hpp>
-#include <godot_cpp/variant/array.hpp>
-#include <godot_cpp/variant/dictionary.hpp>
-#include <godot_cpp/classes/node.hpp>
-#include <godot_cpp/classes/resource.hpp>
-#include <godot_cpp/classes/sprite2d.hpp>
-#include <godot_cpp/classes/test.hpp>
-
-using namespace godot;
-
-// line comment
-
-/* multiline
-   comment
-*/
-class Nested1 : public test {
-    GDCLASS(Nested1, test);
-public:
-};
-
-class test : public Node {
-    GDCLASS(test, Node);
-public:
-
-    enum  {UNIT_NEUTRAL, UNIT_ENEMY, UNIT_ALLY};
-    enum NamedEnum {THING_1, THING_2, ANOTHER_THING =  - 1};
-
-protected:
-    Variant export;
-
-    int export_flags;
-
-// basic property definitions / expressions
-    static int i;
-    const String STRING_CONSTANT = "the fox said \"get off my lawn\"";
-    String big_str = "\
-    this is a multiline string ";
-    Array array = Array {/* initializer lists are unsupported */ 0, 1, 2,  };
-    bool has_call = array.has(3);
-    Dictionary dict = Dictionary {/* initializer lists are unsupported */ {0, 1},{1, 2},{2, 3}, };
-    TypedArray<String> string_array = Array {/* initializer lists are unsupported */ "0", "1",  };
-
-// type inference
-    int j = i;
-
-// determine type based on godot doc
-
-public:
-    double method(double param = 5.0);
-
-protected:
-    Ref<Node> x = this->get_parent();
-    Dictionary aClass = ProjectSettings::get_singleton()->get_global_class_list()[10];
-    const RenderingServer::ShaderMode enum = RenderingServer::ShaderMode::SHADER_SPATIAL;
-
-// Gdscript special syntax
-    Ref<Node> get_node = get_node("node");
-    Ref<Node> get_node2 = get_node("../node");
-    Ref<Node> get_unique_node = get_node("%unique_node");
-    Ref<Resource> preload_resource = /* preload has no equivalent, add a 'ResourcePreloader' Node in your scene */("res://path");
-    Ref<Resource> load_resource = load("res://path");
-
-    Ref<Sprite2D> sprite;
-// cpp will need help here
-
-public:
-    void set_sprite(Ref<Sprite2D> value);
-
-// signals
-    Ref<Sprite2D> get_sprite();
-    /* signal jump() */
-    /* signal movement(Vector3 dir, double speed) */
-
-// _ready generation when @onready is used
-    void async_function();
-
-protected:
-    int k;
-
-public:
-    void _ready() override;
-    void set_export(Variant value);
-    Variant get_export();
-    void set_export_flags(int value);
-    int get_export_flags();
-
-    static void _bind_methods();
-};
-
-VARIANT_ENUM_CAST(test::NamedEnum)
-
-#endif // TEST_H
-
-```
-c++ output (implementation) :
-```c++
-
-#include "test.hpp"
-
-#include <godot_cpp/core/object.hpp>
-#include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
-
-double test::method(double param)
-{
-    for(String k : string_array)
-    {
-        UtilityFunctions::print(k);
-    }
-    return val * param;
-}
-
-void test::set_sprite(Ref<Sprite2D> value)
-{
-    sprite = value;
-    sprite->set_position(Vector2(1, 2));
-    sprite->set_position( /* get_position() */ + Vector2(1, 2));
-}
-
-Ref<Sprite2D> test::get_sprite()
-{
-    return sprite;
-}
-
-void test::async_function()
-{
-    /* await this->jump; */ // no equivalent to await in c++ !
-    /* await this->get_tree()->process_frame; */ // no equivalent to await in c++ !
-
-    get_tree()->emit_signal("process_frame", 0.7);
-
-    Callable myLambda = []() 
-    {    UtilityFunctions::print("look ma i'm jumping");
-    };
-
-    // lambdas are not perfectly translated
-    connect("jump", myLambda);
-
-    emit_signal("movement", Vector3::UP, 0.1);
-}
-
-void test::_ready()
-{
-    k = 42;
-}
-
-void test::set_export(Variant value) {
-    export = value;
-}
-
-Variant test::get_export() {
-    return export;
-}
-
-void test::set_export_flags(int value) {
-    export_flags = value;
-}
-
-int test::get_export_flags() {
-    return export_flags;
-}
-
-void test::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("method", "param"), &test::method);
-    ClassDB::bind_method(D_METHOD("async_function"), &test::async_function);
-    ClassDB::bind_method(D_METHOD("set_sprite", "value"), &test::set_sprite);
-    ClassDB::bind_method(D_METHOD("get_sprite"), &test::get_sprite);
-    ClassDB::bind_method(D_METHOD("set_export", "value"), &test::set_export);
-    ClassDB::bind_method(D_METHOD("get_export"), &test::get_export);
-    ClassDB::bind_method(D_METHOD("set_export_flags", "value"), &test::set_export_flags);
-    ClassDB::bind_method(D_METHOD("get_export_flags"), &test::get_export_flags);
-    ClassDB::bind_integer_constant(get_class_static(), _gde_constant_get_enum_name(UNIT_NEUTRAL, "UNIT_NEUTRAL"), "UNIT_NEUTRAL", UNIT_NEUTRAL);
-    ClassDB::bind_integer_constant(get_class_static(), _gde_constant_get_enum_name(UNIT_ENEMY, "UNIT_ENEMY"), "UNIT_ENEMY", UNIT_ENEMY);
-    ClassDB::bind_integer_constant(get_class_static(), _gde_constant_get_enum_name(UNIT_ALLY, "UNIT_ALLY"), "UNIT_ALLY", UNIT_ALLY);
-    ClassDB::bind_integer_constant(get_class_static(), _gde_constant_get_enum_name(THING_1, "THING_1"), "THING_1", THING_1);
-    ClassDB::bind_integer_constant(get_class_static(), _gde_constant_get_enum_name(THING_2, "THING_2"), "THING_2", THING_2);
-    ClassDB::bind_integer_constant(get_class_static(), _gde_constant_get_enum_name(ANOTHER_THING, "ANOTHER_THING"), "ANOTHER_THING", ANOTHER_THING);
-    ClassDB::add_property(get_class_static(), PropertyInfo(Variant::OBJECT, "export"), "set_export", "get_export");
-    ClassDB::add_property_group(get_class_static(), "group","");
-    ClassDB::add_property(get_class_static(), PropertyInfo(Variant::INT, "export_flags", PROPERTY_HINT_FLAGS, "Self:4,Allies:8,Foes:16"), "set_export_flags", "get_export_flags");
-    ClassDB::add_signal(get_class_static(), MethodInfo("jump"));
-    ClassDB::add_signal(get_class_static(), MethodInfo("movement", PropertyInfo(Variant::VECTOR3, "dir"), PropertyInfo(Variant::FLOAT, "speed")));
-}
-
-
+Override executable paths when needed:
+
+```powershell
+.\run_benchmark.ps1 `
+  -OllamaExe "C:\Users\<you>\AppData\Local\Programs\Ollama\ollama.exe" `
+  -UvExe "C:\Users\<you>\.local\bin\uv.exe"
 ```
 
-### Limitations
-- generated code might need corrections !
-- pattern matching - a complicated form of the match case statement - is not supported
-- when the parser encounters something unexpected it will drop the current line and resume at the next (panic mode). this might result in mangled output.
-- read [TODO.md](TODO.md) for missing features
-- C# : godot won't build C# scripts until you have created at least one C# script manually in the editor
-- c++ : generated code does a best guess on what whould be pointers/references
-- c++ : accessing/modifying parent class properties does not use getters/setters (this is a conscious choice)
+Use environment variables instead of parameters:
 
-### Updating the API definition
-* download the offical godot repo
-* copy it's ```doc/classes``` folder and paste it into our ```classData``` folder
-* install untangle (xml parsing library) if you don't have it (```pip install untangle```)
-* run ```py ./addons/gdscript2all/converter/src/godot_types.py``` to generate the pickle class db
-* profit.
-
-### Adding new languages
-If you want to transpile to an unsupported language, rename a copy of the [C# transpiler backend](addons/gdscript2all/converter/src/CSharp.py),
-modify it as needed, then to use it you just have to pass its name with the ```-t``` flag (example below with c++ transpiler):
-```bash
-python ./addons/gdscript2all/converter/main.py -t Cpp <file_or_folder_path>
+```powershell
+$env:OLLAMA_EXE = "C:\Users\<you>\AppData\Local\Programs\Ollama\ollama.exe"
+$env:UV_EXE = "C:\Users\<you>\.local\bin\uv.exe"
+.\run_benchmark.ps1
 ```
 
-### Explaining the GPL-3.0 license
-The code this tool generates from your GDScipt is yours.
-However, any improvment made to this tool's source has to be contributed back.
-I think that's fair.
-  
-<a href="https://www.buymeacoffee.com/Lcbx" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+Run the Python benchmark directly:
 
+```powershell
+uv run .\benchmark_ollama.py --model nemotron-3-nano:4b --num-ctx 2048 --repeat 5
+```
+
+Open a direct chat session:
+
+```powershell
+ollama run nemotron-3-nano:4b
+```
+
+Default prompt:
+
+```text
+Reply with exactly three short bullet points about why compact local models are useful.
+```
+
+## Results
+
+Aggregate metrics from [`benchmark_latest.json`](./benchmark_latest.json):
+
+| Metric | Value |
+| --- | --- |
+| `eval_rate_tps_avg` | `33.13 tok/s` |
+| `eval_rate_tps_median` | `33.85 tok/s` |
+| `eval_rate_tps_min` | `28.86 tok/s` |
+| `eval_rate_tps_max` | `36.06 tok/s` |
+| `total_seconds_avg` | `4.058 s` |
+| `load_seconds_avg` | `0.378 s` |
+
+Run-level detail:
+
+| Run | `total_seconds` | `load_seconds` | `eval_rate_tps` |
+| --- | --- | --- | --- |
+| 1 | `4.187 s` | `0.310 s` | `32.81 tok/s` |
+| 2 | `5.311 s` | `0.381 s` | `34.05 tok/s` |
+| 3 | `2.965 s` | `0.284 s` | `36.06 tok/s` |
+| 4 | `2.821 s` | `0.302 s` | `28.86 tok/s` |
+| 5 | `5.006 s` | `0.612 s` | `33.85 tok/s` |
+
+Illustrative `visible_response_preview` sample:
+
+```text
+- Runs locally, no data transmission.
+- Low size reduces memory usage.
+- Faster inference, no network latency.
+```
+
+This text is model output and is included only as a trace sample.
+
+## Repository Layout
+
+- [`benchmark_ollama.py`](./benchmark_ollama.py): JSON benchmark runner for `/api/generate`
+- [`run_benchmark.ps1`](./run_benchmark.ps1): Windows wrapper that waits for Ollama readiness and invokes `uv run`
+- [`benchmark_latest.json`](./benchmark_latest.json): latest recorded benchmark result
+- [`assets/nano-identity.svg`](./assets/nano-identity.svg): repository identity asset
+- [`.github/workflows/repo-scaffold-checks.yml`](./.github/workflows/repo-scaffold-checks.yml): GPU-free structural checks for CI
+
+## Notes
+
+- [`benchmark_ollama.py`](./benchmark_ollama.py) strips pre-`</think>` content into `visible_response_preview` for cleaner reporting.
+- The repository keeps evidence files under version control so README claims can be traced to saved artifacts.
+- The wrapper is Windows-oriented, but it no longer depends on one hardcoded workstation path.
+
+## Limitations
+
+- Only one short prompt family is measured.
+- The benchmark reflects this local machine and captured session, not a universal performance claim.
+- `ollama ps` values are recorded as observed output; GPU offload internals were not deeply validated.
+- Cold-start-only behavior, long-running stability, and cross-model comparisons are outside this pass.
+
+## Next Steps
+
+- Separate cold-start and warm-start measurements.
+- Add English and Japanese prompt comparisons under the same JSON schema.
+- Extend the same evidence format to additional local model tags.
