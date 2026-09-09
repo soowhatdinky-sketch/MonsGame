@@ -22,7 +22,7 @@ COPY serve.py /serve.py
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-WORKDIR /app
+WORKDIR /app/game
 EXPOSE 3000
 
 ENTRYPOINT ["/entrypoint.sh"]

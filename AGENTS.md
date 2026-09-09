@@ -7,9 +7,10 @@ A Godot 4.3 game project ("MonsGame") — a simple 3D space flight game. The pla
 The app is exported to HTML5 (WebGL) and served on port 3000. There is no live-reload dev server — Godot requires a full export step. The Docker container (`Dockerfile.base44`) downloads Godot 4.3 headless + web export templates at build time, then on each startup imports the project and exports it to `/export`, serving the result with a Python HTTP server.
 
 ## Key files
-- `project.godot` — Godot 4 project config; main scene is `res://scenes/Main.tscn`
-- `export_presets.cfg` — HTML5 web export preset ("Web")
-- `Dockerfile.base44` — builds the Godot export + serve environment
+- `game/project.godot` — Godot 4 project config; main scene is `res://scenes/Main.tscn`
+- `game/export_presets.cfg` — HTML5 web export preset ("Web")
+- `game/scenes/` and `game/scripts/` — the playable game's scenes and GDScript
+- `Dockerfile.base44` — builds the Godot export + serve environment (WORKDIR `/app/game`)
 - `docker-compose.base44.yml` — compose service binding port 3000 and mounting the source
 - `entrypoint.sh` — runs `godot --headless --import`, then `--export-release "Web"`, then serves
 - `serve.py` — Python HTTP server with COOP/COEP headers + correct wasm MIME type

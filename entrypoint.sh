@@ -4,7 +4,7 @@ set -e
 EXPORT_DIR=/export
 mkdir -p "$EXPORT_DIR"
 
-cd /app
+cd /app/game
 
 echo "=== Importing Godot project resources ==="
 godot --headless --import 2>&1 || echo "(import completed with warnings)"
