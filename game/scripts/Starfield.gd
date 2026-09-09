@@ -1,28 +1,30 @@
 extends Node3D
 
-@export var star_count: int = 2000
-@export var radius: float = 400.0
+@export var star_count: int = 4000
+@export var radius: float = 800.0
 
 func _ready():
-	# Create a MultiMeshInstance3D for efficient star rendering
 	var mmi := MultiMeshInstance3D.new()
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
 	mm.instance_count = star_count
-	
-	# use a tiny sphere as the star mesh
+
 	var star_mesh := SphereMesh.new()
-	star_mesh.radius = 0.06
-	mmi.multimesh = mm
+	star_mesh.radius = 0.08
+	star_mesh.height = 0.16
 	mmi.mesh = star_mesh
+	mmi.multimesh = mm
 	add_child(mmi)
 
-	randomize()
-	for i in star_count:
-		var p := Vector3(randf_range(-1,1), randf_range(-1,1), randf_range(-1,1)).normalized() * randf_range(radius * 0.2, radius)
-		var xform := Transform3D(Basis(), p)
-		mm.set_instance_transform(i, xform)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.9, 0.95, 1.0)
+	mat.emission_enabled = true
+	mat.emission = Color(0.9, 0.95, 1.0)
+	mat.emission_energy_multiplier = 1.5
+	mmi.material_override = mat
 
-# small helpers
-func randf_range(a: float, b: float) -> float:
-	return lerp(a, b, randf())
+	for i in star_count:
+		var p := Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)).normalized() * randf_range(radius * 0.3, radius)
+		var sc := randf_range(0.5, 3.0)
+		var xform := Transform3D(Basis().scaled(Vector3.ONE * sc), p)
+		mm.set_instance_transform(i, xform)
