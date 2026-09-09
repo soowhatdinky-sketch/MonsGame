@@ -1,10 +1,14 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1788926952
+::res://::1788929040
 export_presets.cfg::TextFile::-1::1788928386::0::1::::<><>::
-::res://scenes/::1788926303
+::res://assets/::1788929068
+MONS_GAME.png::CompressedTexture2D::5026478131522361210::1788929040::1788929068::1::::<><>::
+::res://scenes/::1788929046
 Main.tscn::PackedScene::-1::1788926303::0::1::::<><>::res://scripts/Main.gd
+MONS_GAME.tscn::PackedScene::-1::1788929046::0::1::::<><>::res://assets/MONS_GAME.png<>res://scripts/MONS_GAME.gd
 PlayerShip.tscn::PackedScene::-1::1788926303::0::1::::<><>::res://scripts/ShipController.gd
-::res://scripts/::1788926303
+::res://scripts/::1788929040
 Main.gd::GDScript::-1::1788928386::0::1::::<>Node3D<>::
+MONS_GAME.gd::GDScript::-1::1788929040::0::1::::<>Control<>::
 ShipController.gd::GDScript::-1::1788926449::0::1::::<>Node3D<>::
 Starfield.gd::GDScript::-1::1788926805::0::1::::<>Node3D<>::

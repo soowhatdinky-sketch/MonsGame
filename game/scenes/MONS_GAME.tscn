@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource path="res://assets/MONS_GAME.png" type="Texture2D" id=1]
+[ext_resource path="res://scripts/MONS_GAME.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id="btn_start"]
+bg_color = Color(0.04, 0.07, 0.11, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.94, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="btn_settings"]
+bg_color = Color(0.04, 0.07, 0.11, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.94, 1, 0.85)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[node name="MONS_GAME" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource( 2 )
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource( 1 )
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -75.0
+offset_right = 170.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="StartButton" type="Button" parent="MenuContainer"]
+custom_minimum_size = Vector2(340, 64)
+layout_mode = 2
+text = "START"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0.94, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource( "btn_start" )
+theme_override_styles/hover = SubResource( "btn_start" )
+theme_override_styles/pressed = SubResource( "btn_start" )
+
+[node name="SettingsButton" type="Button" parent="MenuContainer"]
+custom_minimum_size = Vector2(340, 52)
+layout_mode = 2
+text = "SETTINGS"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0.94, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource( "btn_settings" )
+theme_override_styles/hover = SubResource( "btn_settings" )
+theme_override_styles/pressed = SubResource( "btn_settings" )
+
+[node name="Credit" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -42.0
+offset_right = 400.0
+offset_bottom = -12.0
+grow_vertical = 0
+text = "By DinkySooWhat for woofles"
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_font_sizes/font_size = 14
