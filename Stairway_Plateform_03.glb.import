@@ -4,25 +4,20 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bbuu"
-path="res://.godot/imported/Stairway_Plateform_03.glb-ff7f9fe2a842e98d604128f54c755ff5.scn"
+path="res://.godot/imported/Stairway_Plateform_03.glb-2ed889eb019dd841d33ce02b310b57f5.scn"
 
 [deps]
 
-source_file="res://Mons_game/MonsGame/Meshes/Stairways/Stairway_Plateform_03.glb"
-dest_files=["res://.godot/imported/Stairway_Plateform_03.glb-ff7f9fe2a842e98d604128f54c755ff5.scn"]
+source_file="res://Stairway_Plateform_03.glb"
+dest_files=["res://.godot/imported/Stairway_Plateform_03.glb-2ed889eb019dd841d33ce02b310b57f5.scn"]
 
 [params]
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/root_script=null
-mesh_library/use_node_names_as_mesh_names=false
-array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
-nodes/use_name_suffixes=true
-nodes/use_node_type_suffixes=true
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
@@ -36,10 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-materials/extract=0
-materials/extract_format=0
-materials/extract_path=""
 _subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
-gltf/texture_map_mode=0

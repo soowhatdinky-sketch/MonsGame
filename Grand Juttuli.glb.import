@@ -4,25 +4,20 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bdr5rh56ocxc0"
-path="res://.godot/imported/Grand Juttuli.glb-f7326f7d8f3b626fd6d6a8f2dd0bb010.scn"
+path="res://.godot/imported/Grand Juttuli.glb-4327baedaa96fd0e27c16c07b014902d.scn"
 
 [deps]
 
-source_file="res://Mons_game/MonsGame/spherocal/Grand Juttuli.glb"
-dest_files=["res://.godot/imported/Grand Juttuli.glb-f7326f7d8f3b626fd6d6a8f2dd0bb010.scn"]
+source_file="res://Grand Juttuli.glb"
+dest_files=["res://.godot/imported/Grand Juttuli.glb-4327baedaa96fd0e27c16c07b014902d.scn"]
 
 [params]
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/root_script=null
-mesh_library/use_node_names_as_mesh_names=false
-array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
-nodes/use_name_suffixes=true
-nodes/use_node_type_suffixes=true
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
@@ -36,10 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-materials/extract=0
-materials/extract_format=0
-materials/extract_path=""
 _subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
-gltf/texture_map_mode=1

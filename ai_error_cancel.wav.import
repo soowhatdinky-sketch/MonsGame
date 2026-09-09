@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b2lftlbs848c4"
-path="res://.godot/imported/ai_error_cancel.wav-ecbd31e39c1ab18224e293a4fa9646ca.sample"
+path="res://.godot/imported/ai_error_cancel.wav-6eb1879dde46b3fa178c11383ec8c8c9.sample"
 
 [deps]
 
-source_file="res://godot-ai-assistant-hub-main/addons/ai_assistant_hub/sounds/ai_error_cancel.wav"
-dest_files=["res://.godot/imported/ai_error_cancel.wav-ecbd31e39c1ab18224e293a4fa9646ca.sample"]
+source_file="res://ai_error_cancel.wav"
+dest_files=["res://.godot/imported/ai_error_cancel.wav-6eb1879dde46b3fa178c11383ec8c8c9.sample"]
 
 [params]
 

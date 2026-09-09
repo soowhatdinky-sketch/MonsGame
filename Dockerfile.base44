@@ -1,0 +1,28 @@
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget unzip ca-certificates python3 inotify-tools libfontconfig1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download Godot 4.3 headless binary
+RUN wget -q "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" -O /tmp/godot.zip \
+    && unzip -o /tmp/godot.zip -d /usr/local/bin/ \
+    && rm /tmp/godot.zip \
+    && chmod +x /usr/local/bin/Godot_v4.3-stable_linux.x86_64 \
+    && ln -sf /usr/local/bin/Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+
+# Download and install web export templates
+RUN wget -q "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz" -O /tmp/templates.tpz \
+    && mkdir -p /root/.local/share/godot/export_templates/4.3.stable \
+    && unzip -j /tmp/templates.tpz "templates/web_*.zip" \
+        -d /root/.local/share/godot/export_templates/4.3.stable/ \
+    && rm /tmp/templates.tpz
+
+COPY serve.py /serve.py
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+WORKDIR /app/game
+EXPOSE 3000
+
+ENTRYPOINT ["/entrypoint.sh"]

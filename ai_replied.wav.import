@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dk1yumltykf6x"
-path="res://.godot/imported/ai_replied.wav-d03f88a5ba4607cdc03b813c47d4e946.sample"
+path="res://.godot/imported/ai_replied.wav-7d4a6287effc94a77ddf0658d20a89a8.sample"
 
 [deps]
 
-source_file="res://godot-ai-assistant-hub-main/addons/ai_assistant_hub/sounds/ai_replied.wav"
-dest_files=["res://.godot/imported/ai_replied.wav-d03f88a5ba4607cdc03b813c47d4e946.sample"]
+source_file="res://ai_replied.wav"
+dest_files=["res://.godot/imported/ai_replied.wav-7d4a6287effc94a77ddf0658d20a89a8.sample"]
 
 [params]
 

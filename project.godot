@@ -1,5 +1,0 @@
-[gd_resource type="ConfigFile" load_steps=2 format=2]
-
-[application]
-config/name="MonsGame"
-run/main_scene="res://Main.tscn"
