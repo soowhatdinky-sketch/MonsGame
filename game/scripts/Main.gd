@@ -72,7 +72,7 @@ func _ready():
 	add_child(station)
 
 	# Player ship
-	var player := load("res://scenes/PlayerShip.tscn").instantiate()
+	var player: Node = preload("res://scenes/PlayerShip.tscn").instantiate()
 	add_child(player)
 	player.name = "Player"
 	player.global_transform.origin = Vector3.ZERO

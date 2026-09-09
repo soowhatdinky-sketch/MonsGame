@@ -9,7 +9,7 @@ MONS_GAME.tscn::PackedScene::-1::1788929046::0::1::::<><>::res://assets/MONS_GAM
 PlayerShip.tscn::PackedScene::-1::1788926303::0::1::::<><>::res://scripts/ShipController.gd
 ::res://scripts/::1788929964
 HUD.gd::GDScript::-1::1788930298::0::1::::<>Control<>::
-Main.gd::GDScript::-1::1788930297::0::1::::<>Node3D<>::
+Main.gd::GDScript::-1::1788930419::0::1::::<>Node3D<>::
 MONS_GAME.gd::GDScript::-1::1788929040::0::1::::<>Control<>::
-ShipController.gd::GDScript::-1::1788930008::0::1::::<>Node3D<>::
+ShipController.gd::GDScript::-1::1788930494::0::1::::<>Node3D<>::
 Starfield.gd::GDScript::-1::1788929962::0::1::::<>Node3D<>::

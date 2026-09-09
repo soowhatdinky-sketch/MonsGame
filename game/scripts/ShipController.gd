@@ -115,7 +115,8 @@ func _physics_process(delta: float):
 	else:
 		var vp := get_viewport()
 		if vp:
-			var off := (vp.get_mouse_position() - vp.size / 2.0) / (vp.size / 2.0)
+			var vs := Vector2(vp.size)
+			var off: Vector2 = (vp.get_mouse_position() - vs / 2.0) / (vs / 2.0)
 			var dz := 0.08
 			off.x = 0 if abs(off.x) < dz else (off.x - dz * sign(off.x)) / (1 - dz)
 			off.y = 0 if abs(off.y) < dz else (off.y - dz * sign(off.y)) / (1 - dz)
@@ -175,7 +176,7 @@ func _physics_process(delta: float):
 	global_translate(velocity * delta)
 
 	# Engine visual
-	var intensity := abs(throttle) + (1.0 if boosting else 0.0)
+	var intensity: float = absf(throttle) + (1.0 if boosting else 0.0)
 	if engine_glow and engine_glow.material_override:
 		engine_glow.material_override.emission_energy_multiplier = 0.3 + intensity * 3.0
 		engine_glow.scale = Vector3.ONE * (0.4 + intensity * 0.6)
