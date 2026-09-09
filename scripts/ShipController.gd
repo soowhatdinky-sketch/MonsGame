@@ -42,6 +42,6 @@ func _physics_process(delta: float) -> void:
 	velocity += forward * thrust_input * thrust * delta
 
 	# simple drag
-	velocity = velocity.linear_interpolate(Vector3.ZERO, 0.6 * delta)
+	velocity = velocity.lerp(Vector3.ZERO, 0.6 * delta)
 
 	translate(velocity * delta)

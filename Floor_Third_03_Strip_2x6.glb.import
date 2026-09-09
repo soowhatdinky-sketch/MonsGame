@@ -4,25 +4,20 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://baoi"
-path="res://.godot/imported/Floor_Third_03_Strip_2x6.glb-b034ca1be694402606a3cf855caa1aec.scn"
+path="res://.godot/imported/Floor_Third_03_Strip_2x6.glb-a22c914d5098ea38d23b27ec8c6f773f.scn"
 
 [deps]
 
-source_file="res://Mons_game/MonsGame/Meshes/Floors/Floor_Third_03_Strip_2x6.glb"
-dest_files=["res://.godot/imported/Floor_Third_03_Strip_2x6.glb-b034ca1be694402606a3cf855caa1aec.scn"]
+source_file="res://Floor_Third_03_Strip_2x6.glb"
+dest_files=["res://.godot/imported/Floor_Third_03_Strip_2x6.glb-a22c914d5098ea38d23b27ec8c6f773f.scn"]
 
 [params]
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/root_script=null
-mesh_library/use_node_names_as_mesh_names=false
-array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
-nodes/use_name_suffixes=true
-nodes/use_node_type_suffixes=true
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
@@ -36,10 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-materials/extract=0
-materials/extract_format=0
-materials/extract_path=""
 _subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
-gltf/texture_map_mode=0

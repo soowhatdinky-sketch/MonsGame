@@ -4,25 +4,20 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://byw1tcm1y5lw0"
-path="res://.godot/imported/Wall_Gear_02_HalfHD_Stuff_03_NormHD_Stuff_03_NormHD_Stuff_03_Norm.glb-e425f3c78549141747387c5ac43ad279.scn"
+path="res://.godot/imported/Wall_Gear_02_HalfHD_Stuff_03_NormHD_Stuff_03_NormHD_Stuff_03_Norm.glb-6b004576eded2137c67669d4d864a933.scn"
 
 [deps]
 
-source_file="res://Mons_game/MonsGame/Meshes/Walls/Wall_Gear_02_HalfHD_Stuff_03_NormHD_Stuff_03_NormHD_Stuff_03_Norm.glb"
-dest_files=["res://.godot/imported/Wall_Gear_02_HalfHD_Stuff_03_NormHD_Stuff_03_NormHD_Stuff_03_Norm.glb-e425f3c78549141747387c5ac43ad279.scn"]
+source_file="res://Wall_Gear_02_HalfHD_Stuff_03_NormHD_Stuff_03_NormHD_Stuff_03_Norm.glb"
+dest_files=["res://.godot/imported/Wall_Gear_02_HalfHD_Stuff_03_NormHD_Stuff_03_NormHD_Stuff_03_Norm.glb-6b004576eded2137c67669d4d864a933.scn"]
 
 [params]
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/root_script=null
-mesh_library/use_node_names_as_mesh_names=false
-array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
-nodes/use_name_suffixes=true
-nodes/use_node_type_suffixes=true
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
@@ -36,10 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-materials/extract=0
-materials/extract_format=0
-materials/extract_path=""
 _subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
-gltf/texture_map_mode=0
