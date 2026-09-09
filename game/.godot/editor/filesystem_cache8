@@ -1,10 +1,10 @@
 ea4bc82a6ad023ab7ee23ee620429895
 ::res://::1788926952
-export_presets.cfg::TextFile::-1::1788926449::0::1::::<><>::
+export_presets.cfg::TextFile::-1::1788928386::0::1::::<><>::
 ::res://scenes/::1788926303
 Main.tscn::PackedScene::-1::1788926303::0::1::::<><>::res://scripts/Main.gd
 PlayerShip.tscn::PackedScene::-1::1788926303::0::1::::<><>::res://scripts/ShipController.gd
 ::res://scripts/::1788926303
-Main.gd::GDScript::-1::1788926303::0::1::::<>Node3D<>::
+Main.gd::GDScript::-1::1788928386::0::1::::<>Node3D<>::
 ShipController.gd::GDScript::-1::1788926449::0::1::::<>Node3D<>::
 Starfield.gd::GDScript::-1::1788926805::0::1::::<>Node3D<>::

@@ -9,7 +9,6 @@ func _ready():
 	player.global_transform.origin = Vector3(0, 0, 0)
 
 	# Add a starfield background
-	var starfield_scene = load("res://scripts/Starfield.gd")
 	var starfield = preload("res://scripts/Starfield.gd").new()
 	add_child(starfield)
 
@@ -17,6 +16,6 @@ func _ready():
 	var cam = Camera3D.new()
 	cam.name = "ChaseCamera"
 	cam.current = true
-	# position camera behind the ship
-	cam.transform = Transform3D(Basis(), Vector3(0.0, 3.0, -12.0))
+	# position camera behind the ship, looking forward at it
+	cam.transform = Transform3D(Basis(), Vector3(0.0, 3.0, 12.0))
 	player.add_child(cam)
